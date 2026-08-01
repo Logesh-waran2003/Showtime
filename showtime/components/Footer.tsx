@@ -69,8 +69,9 @@ export default function Footer() {
             </h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {[
-                { label: 'Privacy Policy', href: '/privacy' },
+                { label: 'Terms & Conditions', href: '/terms' },
                 { label: 'Refund Policy', href: '/refund' },
+                { label: 'Privacy Policy', href: '/privacy' },
               ].map((link) => (
                 <li key={link.href} style={{ marginBottom: '10px' }}>
                   <Link
