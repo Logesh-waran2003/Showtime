@@ -42,7 +42,7 @@ const features = [
       </svg>
     ),
     title: 'Affordable Luxury',
-    desc: "Premium experiences shouldn't cost a fortune. We've made private theatre accessible for everyone with packages starting at just ₹999.",
+    desc: "Premium experiences shouldn't cost a fortune. We've made private theatre accessible for everyone with packages starting at just ₹1,999.",
   },
 ];
 

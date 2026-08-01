@@ -1,52 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-
-// [PLACEHOLDER] - All reviews below are placeholder content
-const reviews = [
-  {
-    initials: 'PS',
-    name: 'Priya S',
-    occasion: 'Birthday Celebration',
-    timeAgo: '2 weeks ago',
-    quote: 'The decoration was stunning! Staff coordinated everything perfectly. Totally worth it for a special occasion.',
-  },
-  {
-    initials: 'RK',
-    name: 'Ramesh K',
-    occasion: 'Anniversary',
-    timeAgo: '1 month ago',
-    quote: 'Booked for our 5th anniversary. Private screen, great sound system, very affordable. Highly recommended!',
-  },
-  {
-    initials: 'AM',
-    name: 'Anitha M',
-    occasion: 'Surprise Party',
-    timeAgo: '3 weeks ago',
-    quote: 'Surprised my best friend here. The team set up everything without a hitch. She was in tears of joy!',
-  },
-  {
-    initials: 'KV',
-    name: 'Karthik V',
-    occasion: 'Couple Date',
-    timeAgo: '5 days ago',
-    quote: 'Cozy, private, and romantic. Perfect for a date night. The ambience is top-notch for the price.',
-  },
-  {
-    initials: 'DR',
-    name: 'Deepa R',
-    occasion: 'Family Gathering',
-    timeAgo: '2 months ago',
-    quote: 'Brought the whole family for a movie night. Comfortable seating, clear picture, amazing experience.',
-  },
-  {
-    initials: 'SN',
-    name: 'Suresh N',
-    occasion: 'Corporate Event',
-    timeAgo: '1 week ago',
-    quote: 'Used Showtime for a small team celebration. The setup was professional and the staff was very helpful.',
-  },
-];
+import { reviews, type Review } from '@/lib/reviewsData';
 
 function StarRating() {
   return (
@@ -60,7 +15,7 @@ function StarRating() {
   );
 }
 
-export function ReviewCard({ review }: { review: typeof reviews[0] }) {
+export function ReviewCard({ review }: { review: Review }) {
   return (
     // [PLACEHOLDER] review card
     <div style={{
@@ -116,6 +71,14 @@ export default function Testimonials() {
 
   return (
     <section style={{ backgroundColor: '#0d0d0d', padding: '80px 24px' }}>
+      <style>{`
+        @media (max-width: 768px) {
+          .testimonials-grid { grid-template-columns: 1fr !important; }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .testimonials-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+      `}</style>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
         {/* Header */}
         <div style={{ textAlign: 'center', marginBottom: '56px' }}>
@@ -133,7 +96,8 @@ export default function Testimonials() {
 
         {/* Carousel */}
         <div style={{ position: 'relative' }}>
-          <div
+        <div
+            className="testimonials-grid"
             style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(3, 1fr)',

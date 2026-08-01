@@ -82,7 +82,7 @@ function GalleryGrid({ items, onOpen }: GalleryGridProps) {
   );
 }
 
-export default function Gallery({ items = defaultItems }: { items?: GalleryItem[] }) {
+export default function Gallery({ items = defaultItems, showHeader = true }: { items?: GalleryItem[]; showHeader?: boolean }) {
   const [lightboxItem, setLightboxItem] = useState<GalleryItem | null>(null);
 
   const openLightbox = (item: GalleryItem) => setLightboxItem(item);
@@ -91,27 +91,27 @@ export default function Gallery({ items = defaultItems }: { items?: GalleryItem[
   return (
     <section style={{ backgroundColor: '#0d0d0d', padding: '80px 24px' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '48px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '12px' }}>
-            <div style={{ width: '32px', height: '2px', backgroundColor: '#3a8dde' }} aria-hidden="true" />
-            <span style={{ color: '#3a8dde', fontSize: '13px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase' }}>
-              GALLERY
-            </span>
-            <div style={{ width: '32px', height: '2px', backgroundColor: '#3a8dde' }} aria-hidden="true" />
+        {/* Header — hidden when parent page provides its own */}
+        {showHeader && (
+          <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '12px' }}>
+              <div style={{ width: '32px', height: '2px', backgroundColor: '#3a8dde' }} aria-hidden="true" />
+              <span style={{ color: '#3a8dde', fontSize: '13px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase' }}>
+                GALLERY
+              </span>
+              <div style={{ width: '32px', height: '2px', backgroundColor: '#3a8dde' }} aria-hidden="true" />
+            </div>
+            <h2 style={{ color: '#ffffff', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, margin: 0 }}>
+              Happy Faces
+            </h2>
+            <p style={{ color: '#aaaaaa', fontSize: '16px', marginTop: '12px' }}>
+              Moments we&apos;ve helped create — click any image to enlarge
+            </p>
           </div>
-          <h2 style={{ color: '#ffffff', fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 800, margin: 0 }}>
-            Happy Faces
-          </h2>
-          <p style={{ color: '#aaaaaa', fontSize: '16px', marginTop: '12px' }}>
-            Moments we&apos;ve helped create — click any image to enlarge
-          </p>
-        </div>
+        )}
 
         <GalleryGrid items={items} onOpen={openLightbox} />
       </div>
-
-      {/* Lightbox modal */}
       {lightboxItem && (
         <div
           onClick={closeLightbox}

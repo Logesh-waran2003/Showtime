@@ -41,6 +41,7 @@ export default function Hero() {
       />
 
       <div
+        className="hero-grid"
         style={{
           position: 'relative',
           zIndex: 1,

@@ -38,7 +38,12 @@ export default function ContactPage() {
         <div style={{
           maxWidth: '1200px', margin: '0 auto',
           display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'start',
-        }}>
+        }} className="contact-grid">
+          <style>{`
+            @media (max-width: 768px) {
+              .contact-grid { grid-template-columns: 1fr !important; }
+            }
+          `}</style>
           {/* Contact info */}
           <div>
             <h2 style={{ color: '#ffffff', fontSize: '24px', fontWeight: 700, marginBottom: '32px' }}>

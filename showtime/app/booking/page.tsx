@@ -32,6 +32,13 @@ const addOns = [
 
 const BASE_PRICE = 1999;
 
+// Returns today's date string in IST (avoids UTC offset showing yesterday before 5:30am)
+const getISTDateString = () => {
+  const now = new Date();
+  const ist = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+  return ist.toISOString().split('T')[0];
+};
+
 function StepIndicator({ step }: { step: number }) {
   const steps = ['Location', 'Date & Time', 'Add-ons', 'Summary'];
   return (
@@ -77,6 +84,9 @@ function StepIndicator({ step }: { step: number }) {
 
 export default function BookingPage() {
   const [step, setStep] = useState(1);
+  const [name, setName] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
   const [selectedDate, setSelectedDate] = useState('');
   const [selectedSlot, setSelectedSlot] = useState('');
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
@@ -245,9 +255,60 @@ export default function BookingPage() {
                       type="date"
                       required
                       value={selectedDate}
-                      min={new Date().toISOString().split('T')[0]}
+                      min={getISTDateString()}
                       onChange={e => setSelectedDate(e.target.value)}
                       style={{ ...inputStyle, colorScheme: 'dark' }}
+                      onFocus={e => (e.target.style.borderColor = '#3a8dde')}
+                      onBlur={e => (e.target.style.borderColor = '#2a2a2a')}
+                    />
+                  </div>
+
+                  {/* Contact fields */}
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', marginBottom: '28px' }}>
+                    <div>
+                      <label htmlFor="booking-name" style={{ display: 'block', color: '#aaaaaa', fontSize: '13px', fontWeight: 600, marginBottom: '8px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+                        Your Name *
+                      </label>
+                      <input
+                        id="booking-name"
+                        type="text"
+                        required
+                        placeholder="e.g. Priya Shankar"
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                        style={inputStyle}
+                        onFocus={e => (e.target.style.borderColor = '#3a8dde')}
+                        onBlur={e => (e.target.style.borderColor = '#2a2a2a')}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="booking-phone" style={{ display: 'block', color: '#aaaaaa', fontSize: '13px', fontWeight: 600, marginBottom: '8px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+                        Phone *
+                      </label>
+                      <input
+                        id="booking-phone"
+                        type="tel"
+                        required
+                        placeholder="+91 9XXXXXXXXX"
+                        value={phone}
+                        onChange={e => setPhone(e.target.value)}
+                        style={inputStyle}
+                        onFocus={e => (e.target.style.borderColor = '#3a8dde')}
+                        onBlur={e => (e.target.style.borderColor = '#2a2a2a')}
+                      />
+                    </div>
+                  </div>
+                  <div style={{ marginBottom: '28px' }}>
+                    <label htmlFor="booking-email" style={{ display: 'block', color: '#aaaaaa', fontSize: '13px', fontWeight: 600, marginBottom: '8px', letterSpacing: '0.5px', textTransform: 'uppercase' }}>
+                      Email (optional)
+                    </label>
+                    <input
+                      id="booking-email"
+                      type="email"
+                      placeholder="you@example.com"
+                      value={email}
+                      onChange={e => setEmail(e.target.value)}
+                      style={inputStyle}
                       onFocus={e => (e.target.style.borderColor = '#3a8dde')}
                       onBlur={e => (e.target.style.borderColor = '#2a2a2a')}
                     />
@@ -287,15 +348,15 @@ export default function BookingPage() {
                       ← Back
                     </button>
                     <button
-                      onClick={() => { if (selectedDate && selectedSlot) setStep(3); }}
-                      disabled={!selectedDate || !selectedSlot}
+                      onClick={() => { if (selectedDate && selectedSlot && name && phone) setStep(3); }}
+                      disabled={!selectedDate || !selectedSlot || !name || !phone}
                       style={{
                         flex: 2,
-                        backgroundColor: selectedDate && selectedSlot ? '#3a8dde' : '#262626',
-                        color: selectedDate && selectedSlot ? '#ffffff' : '#555555',
+                        backgroundColor: selectedDate && selectedSlot && name && phone ? '#3a8dde' : '#262626',
+                        color: selectedDate && selectedSlot && name && phone ? '#ffffff' : '#555555',
                         padding: '14px', borderRadius: '8px',
                         border: 'none', fontSize: '15px', fontWeight: 600,
-                        cursor: selectedDate && selectedSlot ? 'pointer' : 'not-allowed',
+                        cursor: selectedDate && selectedSlot && name && phone ? 'pointer' : 'not-allowed',
                         transition: 'background-color 0.2s',
                       }}
                     >
@@ -488,7 +549,35 @@ export default function BookingPage() {
                       ← Back
                     </button>
                     <button
-                      onClick={() => setBooked(true)}
+                      onClick={() => {
+                        const slotLabel = timeSlots.find(s => s.id === selectedSlot)?.label;
+                        const slotTime = timeSlots.find(s => s.id === selectedSlot)?.time;
+                        const addOnsList = addOns
+                          .filter(a => selectedAddOns.includes(a.id))
+                          .map(a => `${a.label} (+₹${a.price})`)
+                          .join(', ') || 'None';
+                        const dateStr = new Date(selectedDate + 'T00:00:00').toLocaleDateString('en-IN', {
+                          weekday: 'short', day: 'numeric', month: 'long', year: 'numeric',
+                        });
+                        const msg = [
+                          `🎬 *New Booking Request — Showtime Private Theatre*`,
+                          ``,
+                          `👤 Name: ${name}`,
+                          `📞 Phone: ${phone}`,
+                          email ? `📧 Email: ${email}` : null,
+                          ``,
+                          `📍 Location: Pondicherry`,
+                          `📅 Date: ${dateStr}`,
+                          `⏰ Slot: ${slotLabel} · ${slotTime}`,
+                          `🎁 Add-ons: ${addOnsList}`,
+                          ``,
+                          `💰 Total: ₹${total.toLocaleString('en-IN')}`,
+                          `💳 Deposit (50%): ₹${deposit.toLocaleString('en-IN')}`,
+                        ].filter(Boolean).join('\n');
+                        const waUrl = `https://wa.me/919363799250?text=${encodeURIComponent(msg)}`;
+                        window.open(waUrl, '_blank');
+                        setBooked(true);
+                      }}
                       style={{
                         flex: 2,
                         backgroundColor: '#3a8dde', color: '#ffffff',
@@ -500,7 +589,7 @@ export default function BookingPage() {
                       onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#61b6ff')}
                       onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#3a8dde')}
                     >
-                      Pay ₹{deposit.toLocaleString('en-IN')} Now
+                      Confirm via WhatsApp →
                     </button>
                   </div>
 

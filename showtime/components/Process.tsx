@@ -54,6 +54,8 @@ export default function Process() {
         <div style={{ position: 'relative' }}>
           {/* Connector line (desktop) */}
           <div
+            aria-hidden="true"
+            className="connector-line"
             style={{
               position: 'absolute',
               top: '32px',
@@ -63,10 +65,11 @@ export default function Process() {
               background: 'linear-gradient(to right, #3a8dde, #61b6ff)',
               zIndex: 0,
             }}
-            aria-hidden="true"
           />
 
-          <div style={{
+          <div
+            className="process-grid"
+            style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(4, 1fr)',
             gap: '24px',

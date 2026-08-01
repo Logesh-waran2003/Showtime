@@ -46,7 +46,7 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      <Gallery items={fullGalleryItems} />
+      <Gallery items={fullGalleryItems} showHeader={false} />
     </div>
   );
 }
