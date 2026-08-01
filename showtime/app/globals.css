@@ -1,0 +1,137 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: #0d0d0d;
+  --color-card: #1a1a1a;
+  --color-panel: #262626;
+  --color-input: #333333;
+  --color-accent: #3a8dde;
+  --color-accent-light: #61b6ff;
+  --color-text: #ffffff;
+  --color-muted: #aaaaaa;
+  --color-star: #ffc107;
+  --color-whatsapp: #25d366;
+  --color-border: #2a2a2a;
+  --color-foreground: #ffffff;
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root {
+  --background: #0d0d0d;
+  --foreground: #ffffff;
+}
+
+body {
+  background-color: #0d0d0d;
+  color: #ffffff;
+  font-family: var(--font-sans, sans-serif);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(58, 141, 222, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 10px rgba(58, 141, 222, 0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out both;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s infinite;
+}
+
+/* Hover utility classes — used by server components that can't use JS event handlers */
+.link-hover {
+  transition: color 0.2s;
+}
+.link-hover:hover {
+  color: #3a8dde !important;
+}
+.link-hover-wa:hover {
+  color: #25d366 !important;
+}
+.btn-primary-hover {
+  display: inline-block;
+  transition: background-color 0.2s, transform 0.2s;
+}
+.btn-primary-hover:hover {
+  background-color: #61b6ff !important;
+  transform: translateY(-2px);
+}
+.btn-outline-hover {
+  display: inline-block;
+  transition: background-color 0.2s, transform 0.2s;
+}
+.btn-outline-hover:hover {
+  background-color: rgba(58,141,222,0.1) !important;
+  transform: translateY(-2px);
+}
+.card-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.card-lift:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 12px 40px rgba(58,141,222,0.15) !important;
+  border-color: #3a8dde !important;
+}
+.card-lift-lg:hover {
+  transform: translateY(-6px) !important;
+  box-shadow: 0 16px 48px rgba(58,141,222,0.2) !important;
+  border-color: #3a8dde !important;
+}
+
+.cinema-gradient {
+  background: linear-gradient(135deg, #0d0d0d 0%, #1a1a2e 50%, #0d0d0d 100%);
+}
+
+.hero-gradient {
+  background: linear-gradient(
+    to right,
+    #0d0d0d 0%,
+    rgba(13, 13, 13, 0.85) 50%,
+    rgba(13, 13, 13, 0.3) 100%
+  );
+}
+
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(58, 141, 222, 0.15);
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #3a8dde;
+  border-radius: 3px;
+}
