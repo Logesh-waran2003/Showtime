@@ -69,9 +69,8 @@ export default function Footer() {
             </h4>
             <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
               {[
-                { label: 'Terms & Conditions', href: '/terms' },
+                { label: 'Privacy Policy', href: '/privacy' },
                 { label: 'Refund Policy', href: '/refund' },
-                { label: 'Privacy Policy', href: '/terms' },
               ].map((link) => (
                 <li key={link.href} style={{ marginBottom: '10px' }}>
                   <Link
@@ -176,7 +175,7 @@ export default function Footer() {
           </p>
           <div style={{ display: 'flex', gap: '20px' }}>
             {[
-              { label: 'Privacy Policy', href: '/terms' },
+              { label: 'Privacy Policy', href: '/privacy' },
               { label: 'Terms', href: '/terms' },
               { label: 'Refund', href: '/refund' },
               { label: 'Contact', href: '/contact' },
