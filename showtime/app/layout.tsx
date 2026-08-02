@@ -3,7 +3,6 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import WhatsAppButton from '@/components/WhatsAppButton';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -42,11 +41,10 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body style={{ backgroundColor: '#0d0d0d', color: '#ffffff', margin: 0, padding: 0 }}>
+      <body style={{ backgroundColor: '#050507', color: '#e2e8f0', margin: 0, padding: 0 }}>
         <Header />
         <main>{children}</main>
         <Footer />
-        <WhatsAppButton />
       </body>
     </html>
   );
