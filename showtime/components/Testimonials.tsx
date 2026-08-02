@@ -1,4 +1,26 @@
-// ponytail: ReviewCard exported for /reviews page reuse
+'use client';
+
+import { useState } from 'react';
+
+const testimonials = [
+  {
+    quote: 'Surprised my best friend here for her birthday. The team set up everything — fog, LEDs, her favourite song playing when she walked in. She was in tears. Absolutely worth every rupee.',
+    name: 'Anitha M',
+    occasion: 'Surprise Birthday',
+  },
+  {
+    quote: 'Booked for our 5th anniversary. The private setup, the cake, and the movie — everything was perfect. My wife couldn\'t stop smiling. Will definitely come back.',
+    name: 'Karthik R',
+    occasion: 'Anniversary',
+  },
+  {
+    quote: 'Used Showtime for a proposal. They helped with the ring reveal timing, the music, the fog — she said yes before the movie even started! 10/10.',
+    name: 'Vishal S',
+    occasion: 'Proposal',
+  },
+];
+
+// ponytail: exported for /reviews page reuse
 export function ReviewCard({ review }: { review: { initials: string; name: string; occasion: string; timeAgo: string; quote: string } }) {
   return (
     <div style={{
@@ -36,29 +58,62 @@ export function ReviewCard({ review }: { review: { initials: string; name: strin
 }
 
 export default function Testimonials() {
+  const [active, setActive] = useState(0);
+  const t = testimonials[active];
+
   return (
     <section style={{
       padding: '100px 24px',
       backgroundColor: '#0c1220',
-      textAlign: 'center',
     }}>
-      <div style={{ maxWidth: '720px', margin: '0 auto' }}>
-        <p style={{
-          color: '#e2e8f0',
-          fontSize: 'clamp(1.3rem, 3vw, 2rem)',
-          fontStyle: 'italic',
-          lineHeight: 1.6,
-          fontWeight: 400,
+      <div style={{ maxWidth: '750px', margin: '0 auto' }}>
+        <div style={{
+          borderLeft: '3px solid #3a8dde',
+          paddingLeft: '32px',
         }}>
-          &ldquo;Surprised my best friend here for her birthday. The team set up everything — fog, LEDs, her favourite song playing when she walked in. She was in tears. Absolutely worth every rupee.&rdquo;
-        </p>
-        <p style={{
-          color: '#64748b',
-          fontSize: '15px',
-          marginTop: '32px',
+          <p style={{
+            color: '#e2e8f0',
+            fontSize: 'clamp(1.1rem, 2.5vw, 1.4rem)',
+            fontStyle: 'italic',
+            lineHeight: 1.7,
+            fontWeight: 400,
+            minHeight: '120px',
+          }}>
+            &ldquo;{t.quote}&rdquo;
+          </p>
+          <p style={{
+            color: '#64748b',
+            fontSize: '15px',
+            marginTop: '24px',
+          }}>
+            — {t.name}, <span style={{ color: '#3a8dde' }}>{t.occasion}</span>
+          </p>
+        </div>
+
+        {/* Dots */}
+        <div style={{
+          display: 'flex',
+          gap: '10px',
+          marginTop: '40px',
+          paddingLeft: '32px',
         }}>
-          — Anitha M, <span style={{ color: '#f472b6' }}>surprise birthday</span>
-        </p>
+          {testimonials.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setActive(i)}
+              aria-label={`Show testimonial ${i + 1}`}
+              style={{
+                width: i === active ? '28px' : '10px',
+                height: '10px',
+                borderRadius: '5px',
+                backgroundColor: i === active ? '#3a8dde' : '#334155',
+                border: 'none',
+                cursor: 'pointer',
+                transition: 'all 0.3s ease',
+              }}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

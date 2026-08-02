@@ -18,13 +18,15 @@ export default function Header() {
       position: 'sticky',
       top: 0,
       zIndex: 999,
-      backgroundColor: '#050507',
-      borderBottom: '1px solid #0c1220',
+      backdropFilter: 'blur(12px)',
+      WebkitBackdropFilter: 'blur(12px)',
+      backgroundColor: 'rgba(5, 5, 7, 0.85)',
+      borderBottom: '1px solid rgba(12, 18, 32, 0.8)',
     }}>
       <nav style={{
         maxWidth: '1100px',
         margin: '0 auto',
-        padding: '16px 24px',
+        padding: '14px 24px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -41,24 +43,28 @@ export default function Header() {
           </span>
         </Link>
 
-        {/* Desktop nav */}
+        {/* Desktop nav - center links */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }} className="nav-desktop">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               style={{
-                color: '#64748b',
+                color: '#94a3b8',
                 fontSize: '14px',
                 fontWeight: 500,
                 transition: 'color 0.2s',
               }}
               onMouseEnter={e => (e.currentTarget.style.color = '#e2e8f0')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#64748b')}
+              onMouseLeave={e => (e.currentTarget.style.color = '#94a3b8')}
             >
               {link.label}
             </Link>
           ))}
+        </div>
+
+        {/* Desktop Book Now */}
+        <div className="nav-desktop">
           <Link
             href="/booking"
             style={{
@@ -99,9 +105,9 @@ export default function Header() {
       {/* Mobile menu */}
       {menuOpen && (
         <div style={{
-          backgroundColor: '#0c1220',
+          backgroundColor: 'rgba(12, 18, 32, 0.98)',
           padding: '16px 24px 24px',
-          borderBottom: '1px solid rgba(58,141,222,0.1)',
+          borderBottom: '1px solid rgba(58,141,222,0.08)',
         }}>
           {navLinks.map((link) => (
             <Link
@@ -114,7 +120,7 @@ export default function Header() {
                 padding: '14px 0',
                 fontSize: '15px',
                 fontWeight: 500,
-                borderBottom: '1px solid #0c1220',
+                borderBottom: '1px solid rgba(51, 65, 85, 0.3)',
               }}
             >
               {link.label}

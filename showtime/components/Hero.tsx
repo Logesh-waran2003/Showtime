@@ -1,124 +1,120 @@
+import Image from 'next/image';
 import Link from 'next/link';
 
 export default function Hero() {
-  // Split headline into individual characters for the reveal animation
-  const headline = 'Your celebration. Our cinema.';
-  const chars = headline.split('').map((char, i) => (
-    <span key={i} style={{ display: 'inline-block' }}>
-      {char === ' ' ? '\u00A0' : char}
-    </span>
-  ));
-
   return (
     <section style={{
-      minHeight: '100vh',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      textAlign: 'center',
-      padding: '80px 24px 60px',
       position: 'relative',
+      width: '100%',
+      height: '100vh',
+      minHeight: '600px',
       overflow: 'hidden',
-      backgroundColor: '#050507',
+      display: 'flex',
+      alignItems: 'center',
     }}>
-      {/* Subtle radial glow — the screen reflecting on theatre walls */}
-      <div
-        style={{
-          position: 'absolute',
-          top: '40%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: '600px',
-          height: '600px',
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(58, 141, 222, 0.06) 0%, transparent 70%)',
-          pointerEvents: 'none',
-        }}
-        aria-hidden="true"
+      {/* Background image */}
+      <Image
+        src="/images/birthday.jpg"
+        alt="Birthday celebration at Showtime Private Theatre"
+        fill
+        priority
+        style={{ objectFit: 'cover', objectPosition: 'center' }}
       />
 
-      {/* Headline with letter-by-letter reveal */}
-      <h1
-        className="hero-reveal"
-        style={{
-          fontSize: 'clamp(2.5rem, 6vw, 5rem)',
-          fontWeight: 800,
-          letterSpacing: '-0.03em',
-          lineHeight: 1.1,
-          color: '#e2e8f0',
-          position: 'relative',
-          zIndex: 1,
-          maxWidth: '800px',
-        }}
-      >
-        {chars}
-      </h1>
-
-      {/* Subline */}
-      <p className="fade-in" style={{
-        color: '#64748b',
-        fontSize: 'clamp(1rem, 2vw, 1.2rem)',
-        marginTop: '24px',
-        maxWidth: '560px',
-        position: 'relative',
+      {/* Gradient overlay: solid black on left fading to transparent */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: 'linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.2) 70%, transparent 100%)',
         zIndex: 1,
-      }}>
-        Private theatre for birthdays, anniversaries &amp; surprises • Pondicherry &amp; Chennai
-      </p>
+      }} />
 
-      {/* Buttons */}
-      <div className="fade-in" style={{
-        display: 'flex',
-        gap: '16px',
-        marginTop: '40px',
-        flexWrap: 'wrap',
-        justifyContent: 'center',
+      {/* Content */}
+      <div style={{
         position: 'relative',
-        zIndex: 1,
+        zIndex: 2,
+        maxWidth: '1100px',
+        margin: '0 auto',
+        padding: '0 24px',
+        width: '100%',
       }}>
-        <Link
-          href="/booking"
-          style={{
-            backgroundColor: '#3a8dde',
-            color: '#ffffff',
-            padding: '16px 40px',
-            borderRadius: '8px',
-            fontSize: '17px',
-            fontWeight: 600,
-            transition: 'background-color 0.2s',
-          }}
-        >
-          Book Now
-        </Link>
-        <a
-          href="https://wa.me/919363799250"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            color: '#25d366',
-            padding: '16px 40px',
-            borderRadius: '8px',
-            fontSize: '17px',
-            fontWeight: 600,
-            border: '1px solid #25d366',
-            transition: 'background-color 0.2s',
-          }}
-        >
-          WhatsApp Us
-        </a>
+        <div style={{ maxWidth: '560px' }}>
+          <h1 style={{
+            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
+            fontWeight: 800,
+            lineHeight: 1.05,
+            letterSpacing: '-0.03em',
+            marginBottom: '24px',
+          }}>
+            <span style={{ display: 'block', color: '#e2e8f0' }}>Your Celebration.</span>
+            <span style={{ display: 'block', color: '#3a8dde' }}>Our Cinema.</span>
+          </h1>
+
+          <p style={{
+            color: '#cbd5e1',
+            fontSize: 'clamp(1rem, 2vw, 1.2rem)',
+            lineHeight: 1.6,
+            marginBottom: '8px',
+          }}>
+            Private theatre for birthdays, anniversaries, proposals & date nights
+          </p>
+
+          <p style={{
+            color: '#64748b',
+            fontSize: '15px',
+            marginBottom: '32px',
+            fontWeight: 500,
+          }}>
+            📍 Pondicherry & Chennai
+          </p>
+
+          {/* Buttons */}
+          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '28px' }}>
+            <Link
+              href="/booking"
+              style={{
+                backgroundColor: '#3a8dde',
+                color: '#ffffff',
+                padding: '14px 36px',
+                borderRadius: '8px',
+                fontSize: '16px',
+                fontWeight: 600,
+                display: 'inline-block',
+                transition: 'background-color 0.2s',
+              }}
+            >
+              Book Now
+            </Link>
+            <a
+              href="https://wa.me/919363799250"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                color: '#25d366',
+                padding: '14px 36px',
+                borderRadius: '8px',
+                fontSize: '16px',
+                fontWeight: 600,
+                border: '1px solid rgba(37, 211, 102, 0.5)',
+                backgroundColor: 'rgba(37, 211, 102, 0.05)',
+                display: 'inline-block',
+                transition: 'background-color 0.2s',
+              }}
+            >
+              WhatsApp Us
+            </a>
+          </div>
+
+          {/* Trust line */}
+          <p style={{
+            color: '#94a3b8',
+            fontSize: '14px',
+            letterSpacing: '0.01em',
+          }}>
+            13K+ Instagram followers · 4.9★ · Starting from ₹999
+          </p>
+        </div>
       </div>
-
-      {/* Price anchor */}
-      <p className="fade-in" style={{
-        color: '#64748b',
-        fontSize: '14px',
-        marginTop: '28px',
-        position: 'relative',
-        zIndex: 1,
-      }}>
-        Starting from ₹999 · 2–3 hour sessions
-      </p>
     </section>
   );
 }
