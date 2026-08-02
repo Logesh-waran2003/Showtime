@@ -1,25 +1,5 @@
-import Hero from '@/components/Hero';
-import Stats from '@/components/Stats';
-import Services from '@/components/Services';
-import Gallery from '@/components/Gallery';
-import Reels from '@/components/Reels';
-import Testimonials from '@/components/Testimonials';
-import Locations from '@/components/Locations';
-import FAQ from '@/components/FAQ';
-import BookingCTA from '@/components/BookingCTA';
+import CinematicPage from '@/components/CinematicPage';
 
 export default function Home() {
-  return (
-    <>
-      <Hero />
-      <Stats />
-      <Services />
-      <Gallery />
-      <Reels />
-      <Testimonials />
-      <Locations />
-      <FAQ />
-      <BookingCTA />
-    </>
-  );
+  return <CinematicPage />;
 }
