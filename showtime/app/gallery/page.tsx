@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 // Extended gallery with 12 items for the full gallery page
 const fullGalleryItems = [
   ...galleryItems,
-  { id: 9, aspectRatio: '4/3' as const, label: 'Romantic Date Night' },
-  { id: 10, aspectRatio: '3/4' as const, label: 'Kids Birthday Party' },
-  { id: 11, aspectRatio: '1/1' as const, label: 'Floral Decoration Setup' },
-  { id: 12, aspectRatio: '16/9' as const, label: 'Private Screening Hall' },
+  { id: 9, aspectRatio: '4/3' as const, label: 'Romantic Date Night', image: 'https://images.unsplash.com/photo-1529636798458-92182e662485?w=600&q=80' },
+  { id: 10, aspectRatio: '3/4' as const, label: 'Kids Birthday Party', image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80' },
+  { id: 11, aspectRatio: '1/1' as const, label: 'Floral Decoration Setup', image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80' },
+  { id: 12, aspectRatio: '16/9' as const, label: 'Private Screening Hall', image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=600&q=80' },
 ];
 
 export default function GalleryPage() {

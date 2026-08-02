@@ -1,30 +1,8 @@
 'use client';
 
 import { useState } from 'react';
+import Image from 'next/image';
 import { galleryItems as defaultItems, type GalleryItem } from '@/lib/galleryData';
-
-const gradients = [
-  'linear-gradient(145deg, #0d1a2e 0%, #1a2a4a 100%)',
-  'linear-gradient(145deg, #1a0d2e 0%, #2a1a4a 100%)',
-  'linear-gradient(145deg, #0d2e1a 0%, #1a4a2a 100%)',
-  'linear-gradient(145deg, #2e1a0d 0%, #4a2a1a 100%)',
-  'linear-gradient(145deg, #0d1a2e 0%, #2a3a5a 100%)',
-  'linear-gradient(145deg, #1a2e0d 0%, #2a4a1a 100%)',
-  'linear-gradient(145deg, #0d2a2e 0%, #1a4a4a 100%)',
-  'linear-gradient(145deg, #2e0d1a 0%, #4a1a2a 100%)',
-  'linear-gradient(145deg, #0d1a2e 0%, #1a2a4a 100%)',
-  'linear-gradient(145deg, #1a0d2e 0%, #2a1a4a 100%)',
-  'linear-gradient(145deg, #0d2e1a 0%, #1a4a2a 100%)',
-  'linear-gradient(145deg, #2e1a0d 0%, #4a2a1a 100%)',
-];
-
-function CameraIcon() {
-  return (
-    <svg width="32" height="32" viewBox="0 0 24 24" fill="rgba(97,182,255,0.4)" aria-hidden="true">
-      <path d="M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.65 0-3 1.35-3 3s1.35 3 3 3 3-1.35 3-3-1.35-3-3-3z" />
-    </svg>
-  );
-}
 
 interface GalleryGridProps {
   items: GalleryItem[];
@@ -32,50 +10,66 @@ interface GalleryGridProps {
 }
 
 function GalleryGrid({ items, onOpen }: GalleryGridProps) {
+  const [hoveredId, setHoveredId] = useState<number | null>(null);
+
   return (
     <div style={{
       display: 'grid',
       gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))',
       gap: '16px',
     }}>
-      {items.map((item, i) => (
+      {items.map((item) => (
         <div
           key={item.id}
           onClick={() => onOpen(item)}
+          onMouseEnter={() => setHoveredId(item.id)}
+          onMouseLeave={() => setHoveredId(null)}
           style={{
             aspectRatio: item.aspectRatio,
-            background: gradients[i % gradients.length],
             borderRadius: '12px',
-            border: '1px solid #2a2a2a',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            gap: '10px',
+            border: hoveredId === item.id ? '1px solid #3a8dde' : '1px solid #2a2a2a',
             cursor: 'pointer',
             transition: 'transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease',
             position: 'relative',
             overflow: 'hidden',
+            transform: hoveredId === item.id ? 'scale(1.02)' : 'scale(1)',
+            boxShadow: hoveredId === item.id ? '0 12px 40px rgba(58,141,222,0.2)' : 'none',
           }}
           role="button"
           aria-label={`Open ${item.label}`}
           tabIndex={0}
           onKeyDown={e => e.key === 'Enter' && onOpen(item)}
-          onMouseEnter={e => {
-            (e.currentTarget as HTMLDivElement).style.transform = 'scale(1.02)';
-            (e.currentTarget as HTMLDivElement).style.boxShadow = '0 12px 40px rgba(58,141,222,0.2)';
-            (e.currentTarget as HTMLDivElement).style.borderColor = '#3a8dde';
-          }}
-          onMouseLeave={e => {
-            (e.currentTarget as HTMLDivElement).style.transform = 'scale(1)';
-            (e.currentTarget as HTMLDivElement).style.boxShadow = 'none';
-            (e.currentTarget as HTMLDivElement).style.borderColor = '#2a2a2a';
-          }}
         >
-          <CameraIcon />
-          <span style={{ color: 'rgba(170,170,170,0.6)', fontSize: '12px', fontWeight: 500, textAlign: 'center', padding: '0 12px' }}>
-            {item.label}
-          </span>
+          <Image
+            src={item.image}
+            alt={item.label}
+            fill
+            unoptimized
+            style={{ objectFit: 'cover' }}
+          />
+          {/* Dark overlay with label on hover */}
+          <div style={{
+            position: 'absolute',
+            inset: 0,
+            background: hoveredId === item.id ? 'rgba(0,0,0,0.6)' : 'rgba(0,0,0,0)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            transition: 'background 0.3s ease',
+          }}>
+            <span style={{
+              color: '#ffffff',
+              fontSize: '14px',
+              fontWeight: 600,
+              textAlign: 'center',
+              padding: '0 12px',
+              opacity: hoveredId === item.id ? 1 : 0,
+              transition: 'opacity 0.3s ease',
+              textShadow: '0 2px 4px rgba(0,0,0,0.5)',
+            }}>
+              {item.label}
+            </span>
+          </div>
         </div>
       ))}
     </div>
@@ -144,23 +138,22 @@ export default function Gallery({ items = defaultItems }: { items?: GalleryItem[
           <div
             onClick={(e) => e.stopPropagation()}
             style={{
-              background: gradients[(lightboxItem.id - 1) % gradients.length],
               borderRadius: '16px',
               width: 'min(600px, 90vw)',
               aspectRatio: lightboxItem.aspectRatio,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              flexDirection: 'column',
-              gap: '16px',
+              position: 'relative',
+              overflow: 'hidden',
               border: '1px solid #3a8dde',
               boxShadow: '0 24px 80px rgba(58,141,222,0.3)',
             }}
           >
-            <CameraIcon />
-            <span style={{ color: 'rgba(170,170,170,0.8)', fontSize: '14px', fontWeight: 500 }}>
-              {lightboxItem.label}
-            </span>
+            <Image
+              src={lightboxItem.image}
+              alt={lightboxItem.label}
+              fill
+              unoptimized
+              style={{ objectFit: 'cover' }}
+            />
           </div>
         </div>
       )}

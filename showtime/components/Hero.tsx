@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Hero() {
   return (
@@ -75,8 +76,8 @@ export default function Hero() {
               letterSpacing: '-0.5px',
             }}
           >
-            Your Own Private Cinema{' '}
-            <span style={{ color: '#3a8dde' }}>in the Heart of Pondicherry</span>
+            Your Celebration.{' '}
+            <span style={{ color: '#3a8dde' }}>Our Cinema.</span>
           </h1>
 
           {/* Tagline */}
@@ -89,11 +90,11 @@ export default function Hero() {
               maxWidth: '480px',
             }}
           >
-            Affordable luxury for private movie screenings, surprise celebrations, and unforgettable events.
+            Private theatre experiences for birthdays, anniversaries, proposals &amp; date nights in Pondicherry &amp; Chennai
           </p>
 
           {/* CTA Buttons */}
-          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '48px' }}>
+          <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap', marginBottom: '16px' }}>
             <Link
               href="/booking"
               style={{
@@ -145,6 +146,11 @@ export default function Hero() {
             </Link>
           </div>
 
+          {/* Starting price */}
+          <p style={{ color: '#61b6ff', fontSize: '15px', fontWeight: 600, marginBottom: '48px' }}>
+            Starting from ₹999
+          </p>
+
           {/* Stats row */}
           <div
             style={{
@@ -178,56 +184,34 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right: Cinematic visual placeholder */}
+        {/* Right: Real cinema image */}
         <div
           style={{
             borderRadius: '16px',
             overflow: 'hidden',
             position: 'relative',
             aspectRatio: '4/3',
-            background: 'linear-gradient(145deg, #0d1a2e 0%, #1a2a4a 40%, #0d1520 100%)',
-            border: '1px solid #2a2a2a',
-            boxShadow: '0 24px 80px rgba(58,141,222,0.15)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
+            boxShadow: '0 24px 80px rgba(58,141,222,0.25), 0 0 60px rgba(58,141,222,0.1)',
           }}
           role="img"
-          aria-label="Private cinema theatre ambience"
+          aria-label="Private cinema theatre with colorful LED lights"
         >
-          {/* Film strip decorations */}
-          <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', padding: '10px 0', opacity: 0.3 }} aria-hidden="true">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <div key={i} style={{ height: '20px', backgroundColor: '#3a8dde', margin: '0 6px', borderRadius: '2px' }} />
-            ))}
-          </div>
-          <div style={{ position: 'absolute', right: 0, top: 0, bottom: 0, width: '40px', display: 'flex', flexDirection: 'column', justifyContent: 'space-around', padding: '10px 0', opacity: 0.3 }} aria-hidden="true">
-            {Array.from({ length: 12 }).map((_, i) => (
-              <div key={i} style={{ height: '20px', backgroundColor: '#3a8dde', margin: '0 6px', borderRadius: '2px' }} />
-            ))}
-          </div>
-          {/* Center screen icon */}
-          <div style={{ textAlign: 'center' }}>
-            <div style={{
-              width: '120px', height: '80px',
-              border: '3px solid rgba(58,141,222,0.5)',
-              borderRadius: '8px',
-              margin: '0 auto 20px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: 'rgba(58,141,222,0.05)',
-            }}>
-              <svg width="40" height="40" viewBox="0 0 24 24" fill="rgba(58,141,222,0.6)" aria-hidden="true">
-                <path d="M8 5v14l11-7z" />
-              </svg>
-            </div>
-            <p style={{ color: 'rgba(97,182,255,0.7)', fontSize: '14px', fontWeight: 500 }}>Private Cinema Experience</p>
-            <p style={{ color: 'rgba(170,170,170,0.5)', fontSize: '12px', marginTop: '4px' }}>Pondicherry</p>
-          </div>
+          <Image
+            src="https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&q=80"
+            alt="Private cinema theatre with rows of seats and colorful ambient lighting"
+            fill
+            unoptimized
+            style={{
+              objectFit: 'cover',
+              borderRadius: '16px',
+            }}
+          />
           {/* Glow overlay */}
           <div style={{
             position: 'absolute', bottom: 0, left: 0, right: 0,
-            height: '60%',
-            background: 'linear-gradient(to top, rgba(58,141,222,0.08), transparent)',
+            height: '40%',
+            background: 'linear-gradient(to top, rgba(13,13,13,0.6), transparent)',
+            borderRadius: '0 0 16px 16px',
           }} aria-hidden="true" />
         </div>
       </div>
