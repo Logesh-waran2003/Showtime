@@ -32,7 +32,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body style={{ backgroundColor: '#0d0d0d', color: '#ffffff', margin: 0, padding: 0, fontFamily: 'system-ui, -apple-system, sans-serif' }}>
+      <body style={{ backgroundColor: '#0d0d0d', color: '#ffffff', margin: 0, padding: 0, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif" }}>
         <Header />
         <main>{children}</main>
         <Footer />

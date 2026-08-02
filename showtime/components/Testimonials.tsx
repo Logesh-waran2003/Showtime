@@ -1,71 +1,38 @@
-'use client';
-
-const reviews = [
+const testimonials = [
   {
-    quote: 'The decoration was stunning and the staff coordinated everything perfectly. Best birthday surprise ever!',
-    name: 'Priya S',
-    occasion: 'Birthday',
-  },
-  {
-    quote: 'Booked for our 5th anniversary. Private screen, great sound, very romantic setup. Highly recommended!',
+    quote: 'We walked in and my wife started crying. The balloons, the screen playing our photos, the cake — everything was perfect. Thank you, Showtime.',
     name: 'Ramesh K',
     occasion: 'Anniversary',
   },
   {
-    quote: 'Surprised my best friend here. The fog entry was amazing! She was in tears of joy.',
+    quote: 'Booked at 11 PM for the next morning. They still pulled it off beautifully. The fog entry alone was worth it.',
     name: 'Anitha M',
-    occasion: 'Surprise Party',
+    occasion: 'Birthday surprise',
+  },
+  {
+    quote: "I've done 4 celebrations here now. Every time the team remembers what I liked last time. That's rare.",
+    name: 'Priya S',
+    occasion: 'Repeat customer',
   },
 ];
 
 export default function Testimonials() {
   return (
-    <section style={{ padding: '80px 5%', maxWidth: '1100px', margin: '0 auto' }}>
-      <h2 style={{ textAlign: 'center', fontSize: '32px', fontWeight: 700, margin: '0 0 48px 0' }}>
-        What Our Guests Say
-      </h2>
-
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(3, 1fr)',
-        gap: '20px',
-      }}>
-        {reviews.map((review) => (
-          <div key={review.name} style={{
-            background: '#1a1a1a',
-            borderLeft: '4px solid #3a8dde',
-            borderRadius: '8px',
-            padding: '28px 24px',
-          }}>
-            <div style={{ color: '#f5c518', fontSize: '16px', marginBottom: '12px' }}>
-              ★★★★★
-            </div>
-            <p style={{
-              fontSize: '15px',
-              color: '#cccccc',
-              lineHeight: 1.6,
-              fontStyle: 'italic',
-              margin: '0 0 20px 0',
-            }}>
-              &ldquo;{review.quote}&rdquo;
+    <section style={{ maxWidth: '1100px', margin: '0 auto', padding: '60px 5%' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '32px' }}>
+        {testimonials.map((t) => (
+          <div key={t.name} style={{ borderLeft: '3px solid #3a8dde', paddingLeft: '20px' }}>
+            <p style={{ fontSize: '15px', fontStyle: 'italic', color: '#ccc', lineHeight: 1.7, margin: '0 0 12px 0' }}>
+              &ldquo;{t.quote}&rdquo;
             </p>
-            <div>
-              <span style={{ fontSize: '14px', fontWeight: 600, color: '#ffffff' }}>
-                {review.name}
-              </span>
-              <span style={{ fontSize: '13px', color: '#aaaaaa', marginLeft: '8px' }}>
-                — {review.occasion}
-              </span>
-            </div>
+            <p style={{ fontSize: '13px', fontWeight: 600, color: '#fff', margin: '0 0 4px 0' }}>{t.name}</p>
+            <p style={{ fontSize: '12px', color: '#666', margin: 0 }}>{t.occasion}</p>
           </div>
         ))}
       </div>
-
       <style>{`
         @media (max-width: 768px) {
-          section > div {
-            grid-template-columns: 1fr !important;
-          }
+          section > div { grid-template-columns: 1fr !important; gap: 32px !important; }
         }
       `}</style>
     </section>

@@ -12,8 +12,7 @@ export default function Header() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const navLinks = [
-    { label: 'Home', href: '/' },
+  const links = [
     { label: 'About', href: '/about' },
     { label: 'Gallery', href: '/gallery' },
     { label: 'Reviews', href: '/reviews' },
@@ -22,170 +21,119 @@ export default function Header() {
 
   return (
     <header style={{
-      position: 'fixed',
+      position: 'sticky',
       top: 0,
-      left: 0,
-      right: 0,
-      zIndex: 1000,
-      background: scrolled ? 'rgba(13,13,13,0.95)' : 'transparent',
-      backdropFilter: scrolled ? 'blur(12px)' : 'none',
+      zIndex: 100,
+      backgroundColor: '#0d0d0d',
       borderBottom: scrolled ? '1px solid #1a1a1a' : '1px solid transparent',
-      transition: 'background 0.3s, backdrop-filter 0.3s, border-bottom 0.3s',
-      padding: '0 5%',
+      padding: scrolled ? '12px 5%' : '18px 5%',
+      transition: 'padding 0.3s ease, border-color 0.3s ease',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
     }}>
-      <div style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        height: '64px',
-        maxWidth: '1200px',
-        margin: '0 auto',
-      }}>
-        {/* Logo */}
-        <a href="/" style={{ textDecoration: 'none', fontSize: '22px', fontWeight: 800, color: '#ffffff' }}>
-          SHOW<span style={{ color: '#3a8dde' }}>TIME</span>
-        </a>
+      <a href="/" style={{ fontSize: '18px', fontWeight: 700, color: '#fff', textDecoration: 'none' }}>
+        SHOWTIME
+      </a>
 
-        {/* Desktop Nav */}
-        <nav style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
-          {navLinks.map((link) => (
+      <nav style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
+        <div className="desktop-nav" style={{ display: 'flex', gap: '24px' }}>
+          {links.map((link) => (
             <a
-              key={link.href}
+              key={link.label}
               href={link.href}
-              style={{
-                color: '#cccccc',
-                textDecoration: 'none',
-                fontSize: '14px',
-                fontWeight: 500,
-                transition: 'color 0.2s',
-              }}
-              className="nav-link-desktop"
+              style={{ fontSize: '14px', color: '#999', textDecoration: 'none', transition: 'color 0.2s' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = '#fff')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = '#999')}
             >
               {link.label}
             </a>
           ))}
-        </nav>
+        </div>
+        <a
+          href="/booking"
+          style={{
+            backgroundColor: '#3a8dde',
+            color: '#fff',
+            padding: '8px 20px',
+            borderRadius: '6px',
+            fontSize: '14px',
+            fontWeight: 500,
+            textDecoration: 'none',
+          }}
+          className="desktop-nav"
+        >
+          Book
+        </a>
+        <button
+          className="mobile-nav"
+          onClick={() => setMenuOpen(!menuOpen)}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            display: 'none',
+            flexDirection: 'column',
+            gap: '5px',
+            padding: '4px',
+          }}
+          aria-label="Toggle menu"
+        >
+          <span style={{ width: '22px', height: '2px', backgroundColor: '#fff', display: 'block' }} />
+          <span style={{ width: '22px', height: '2px', backgroundColor: '#fff', display: 'block' }} />
+          <span style={{ width: '22px', height: '2px', backgroundColor: '#fff', display: 'block' }} />
+        </button>
+      </nav>
 
-        {/* Right side */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-          <a
-            href="tel:+919363799250"
-            style={{
-              color: '#aaaaaa',
-              textDecoration: 'none',
-              fontSize: '13px',
-              fontWeight: 500,
-            }}
-            className="phone-desktop"
-          >
-            📞 +91 93637 99250
-          </a>
+      {menuOpen && (
+        <div style={{
+          position: 'absolute',
+          top: '100%',
+          left: 0,
+          right: 0,
+          backgroundColor: '#0d0d0d',
+          borderBottom: '1px solid #1a1a1a',
+          padding: '20px 5%',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '16px',
+        }}>
+          {links.map((link) => (
+            <a
+              key={link.label}
+              href={link.href}
+              style={{ fontSize: '15px', color: '#999', textDecoration: 'none' }}
+              onClick={() => setMenuOpen(false)}
+            >
+              {link.label}
+            </a>
+          ))}
           <a
             href="/booking"
             style={{
-              background: '#3a8dde',
-              color: '#ffffff',
-              padding: '8px 18px',
+              backgroundColor: '#3a8dde',
+              color: '#fff',
+              padding: '10px 20px',
               borderRadius: '6px',
-              fontSize: '13px',
-              fontWeight: 600,
+              fontSize: '14px',
+              fontWeight: 500,
               textDecoration: 'none',
+              textAlign: 'center',
             }}
-            className="book-btn-desktop"
+            onClick={() => setMenuOpen(false)}
           >
-            Book Now
+            Book
           </a>
-
-          {/* Mobile hamburger */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            style={{
-              display: 'none',
-              background: 'transparent',
-              border: 'none',
-              color: '#ffffff',
-              fontSize: '24px',
-              cursor: 'pointer',
-              padding: '4px',
-            }}
-            className="hamburger-btn"
-            aria-label="Toggle menu"
-          >
-            {menuOpen ? '✕' : '☰'}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile menu */}
-      {menuOpen && (
-        <div style={{
-          padding: '16px 0',
-          borderTop: '1px solid #1a1a1a',
-          background: 'rgba(13,13,13,0.98)',
-        }}
-          className="mobile-menu"
-        >
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              style={{
-                display: 'block',
-                padding: '12px 0',
-                color: '#cccccc',
-                textDecoration: 'none',
-                fontSize: '16px',
-              }}
-            >
-              {link.label}
-            </a>
-          ))}
-          <div style={{ marginTop: '12px', display: 'flex', gap: '10px' }}>
-            <a
-              href="/booking"
-              style={{
-                background: '#3a8dde',
-                color: '#ffffff',
-                padding: '10px 20px',
-                borderRadius: '6px',
-                fontSize: '14px',
-                fontWeight: 600,
-                textDecoration: 'none',
-              }}
-            >
-              Book Now
-            </a>
-            <a
-              href="https://wa.me/919363799250?text=Hi!%20I%20want%20to%20book%20a%20celebration"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                background: '#25d366',
-                color: '#ffffff',
-                padding: '10px 20px',
-                borderRadius: '6px',
-                fontSize: '14px',
-                fontWeight: 600,
-                textDecoration: 'none',
-              }}
-            >
-              WhatsApp
-            </a>
-          </div>
         </div>
       )}
 
       <style>{`
-        .nav-link-desktop:hover { color: #ffffff !important; }
-        @media (max-width: 768px) {
-          .nav-link-desktop { display: none !important; }
-          .phone-desktop { display: none !important; }
-          .book-btn-desktop { display: none !important; }
-          .hamburger-btn { display: block !important; }
-        }
         @media (min-width: 769px) {
-          .hamburger-btn { display: none !important; }
-          .mobile-menu { display: none !important; }
+          .mobile-nav { display: none !important; }
+        }
+        @media (max-width: 768px) {
+          .desktop-nav { display: none !important; }
+          .mobile-nav { display: flex !important; }
         }
       `}</style>
     </header>
