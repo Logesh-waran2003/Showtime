@@ -1,21 +1,25 @@
 import Hero from '@/components/Hero';
-import Gallery from '@/components/Gallery';
-import Instagram from '@/components/Instagram';
+import Stats from '@/components/Stats';
 import Services from '@/components/Services';
+import Gallery from '@/components/Gallery';
+import Reels from '@/components/Reels';
 import Testimonials from '@/components/Testimonials';
 import Locations from '@/components/Locations';
-import FinalCTA from '@/components/FinalCTA';
+import FAQ from '@/components/FAQ';
+import BookingCTA from '@/components/BookingCTA';
 
 export default function Home() {
   return (
     <>
       <Hero />
-      <Gallery />
-      <Instagram />
+      <Stats />
       <Services />
+      <Gallery />
+      <Reels />
       <Testimonials />
       <Locations />
-      <FinalCTA />
+      <FAQ />
+      <BookingCTA />
     </>
   );
 }

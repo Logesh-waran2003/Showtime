@@ -1,155 +1,191 @@
 'use client';
 
-import { useState } from 'react';
-import Link from 'next/link';
-
-const navLinks = [
-  { label: 'About', href: '/about' },
-  { label: 'Gallery', href: '/gallery' },
-  { label: 'Reviews', href: '/reviews' },
-  { label: 'Contact', href: '/contact' },
-];
+import { useState, useEffect } from 'react';
 
 export default function Header() {
+  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const navLinks = [
+    { label: 'Home', href: '/' },
+    { label: 'About', href: '/about' },
+    { label: 'Gallery', href: '/gallery' },
+    { label: 'Reviews', href: '/reviews' },
+    { label: 'Contact', href: '/contact' },
+  ];
 
   return (
     <header style={{
-      position: 'sticky',
+      position: 'fixed',
       top: 0,
-      zIndex: 999,
-      backdropFilter: 'blur(12px)',
-      WebkitBackdropFilter: 'blur(12px)',
-      backgroundColor: 'rgba(5, 5, 7, 0.85)',
-      borderBottom: '1px solid rgba(12, 18, 32, 0.8)',
+      left: 0,
+      right: 0,
+      zIndex: 1000,
+      background: scrolled ? 'rgba(13,13,13,0.95)' : 'transparent',
+      backdropFilter: scrolled ? 'blur(12px)' : 'none',
+      borderBottom: scrolled ? '1px solid #1a1a1a' : '1px solid transparent',
+      transition: 'background 0.3s, backdrop-filter 0.3s, border-bottom 0.3s',
+      padding: '0 5%',
     }}>
-      <nav style={{
-        maxWidth: '1100px',
-        margin: '0 auto',
-        padding: '14px 24px',
+      <div style={{
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        height: '64px',
+        maxWidth: '1200px',
+        margin: '0 auto',
       }}>
         {/* Logo */}
-        <Link href="/" style={{ textDecoration: 'none' }}>
-          <span style={{
-            color: '#e2e8f0',
-            fontSize: '20px',
-            fontWeight: 800,
-            letterSpacing: '-0.03em',
-          }}>
-            SHOW<span style={{ color: '#3a8dde' }}>TIME</span>
-          </span>
-        </Link>
+        <a href="/" style={{ textDecoration: 'none', fontSize: '22px', fontWeight: 800, color: '#ffffff' }}>
+          SHOW<span style={{ color: '#3a8dde' }}>TIME</span>
+        </a>
 
-        {/* Desktop nav - center links */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }} className="nav-desktop">
+        {/* Desktop Nav */}
+        <nav style={{ display: 'flex', alignItems: 'center', gap: '28px' }}>
           {navLinks.map((link) => (
-            <Link
+            <a
               key={link.href}
               href={link.href}
               style={{
-                color: '#94a3b8',
+                color: '#cccccc',
+                textDecoration: 'none',
                 fontSize: '14px',
                 fontWeight: 500,
                 transition: 'color 0.2s',
               }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#e2e8f0')}
-              onMouseLeave={e => (e.currentTarget.style.color = '#94a3b8')}
+              className="nav-link-desktop"
             >
               {link.label}
-            </Link>
+            </a>
           ))}
-        </div>
+        </nav>
 
-        {/* Desktop Book Now */}
-        <div className="nav-desktop">
-          <Link
+        {/* Right side */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+          <a
+            href="tel:+919363799250"
+            style={{
+              color: '#aaaaaa',
+              textDecoration: 'none',
+              fontSize: '13px',
+              fontWeight: 500,
+            }}
+            className="phone-desktop"
+          >
+            📞 +91 93637 99250
+          </a>
+          <a
             href="/booking"
             style={{
-              backgroundColor: '#3a8dde',
+              background: '#3a8dde',
               color: '#ffffff',
-              padding: '10px 22px',
+              padding: '8px 18px',
               borderRadius: '6px',
-              fontSize: '14px',
+              fontSize: '13px',
               fontWeight: 600,
-              transition: 'background-color 0.2s',
+              textDecoration: 'none',
             }}
-            onMouseEnter={e => (e.currentTarget.style.backgroundColor = '#4da3f0')}
-            onMouseLeave={e => (e.currentTarget.style.backgroundColor = '#3a8dde')}
+            className="book-btn-desktop"
           >
             Book Now
-          </Link>
-        </div>
+          </a>
 
-        {/* Mobile hamburger */}
-        <button
-          className="nav-mobile-btn"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Toggle menu"
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: '8px',
-            display: 'none',
-          }}
-        >
-          <div style={{ width: '22px', height: '2px', backgroundColor: '#e2e8f0', marginBottom: '5px', transition: 'transform 0.3s', transform: menuOpen ? 'rotate(45deg) translateY(7px)' : 'none' }} />
-          <div style={{ width: '22px', height: '2px', backgroundColor: '#e2e8f0', marginBottom: '5px', opacity: menuOpen ? 0 : 1, transition: 'opacity 0.2s' }} />
-          <div style={{ width: '22px', height: '2px', backgroundColor: '#e2e8f0', transition: 'transform 0.3s', transform: menuOpen ? 'rotate(-45deg) translateY(-7px)' : 'none' }} />
-        </button>
-      </nav>
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            style={{
+              display: 'none',
+              background: 'transparent',
+              border: 'none',
+              color: '#ffffff',
+              fontSize: '24px',
+              cursor: 'pointer',
+              padding: '4px',
+            }}
+            className="hamburger-btn"
+            aria-label="Toggle menu"
+          >
+            {menuOpen ? '✕' : '☰'}
+          </button>
+        </div>
+      </div>
 
       {/* Mobile menu */}
       {menuOpen && (
         <div style={{
-          backgroundColor: 'rgba(12, 18, 32, 0.98)',
-          padding: '16px 24px 24px',
-          borderBottom: '1px solid rgba(58,141,222,0.08)',
-        }}>
+          padding: '16px 0',
+          borderTop: '1px solid #1a1a1a',
+          background: 'rgba(13,13,13,0.98)',
+        }}
+          className="mobile-menu"
+        >
           {navLinks.map((link) => (
-            <Link
+            <a
               key={link.href}
               href={link.href}
-              onClick={() => setMenuOpen(false)}
               style={{
                 display: 'block',
-                color: '#e2e8f0',
-                padding: '14px 0',
-                fontSize: '15px',
-                fontWeight: 500,
-                borderBottom: '1px solid rgba(51, 65, 85, 0.3)',
+                padding: '12px 0',
+                color: '#cccccc',
+                textDecoration: 'none',
+                fontSize: '16px',
               }}
             >
               {link.label}
-            </Link>
+            </a>
           ))}
-          <Link
-            href="/booking"
-            onClick={() => setMenuOpen(false)}
-            style={{
-              display: 'block',
-              backgroundColor: '#3a8dde',
-              color: '#ffffff',
-              padding: '14px 20px',
-              borderRadius: '6px',
-              fontSize: '15px',
-              fontWeight: 600,
-              textAlign: 'center',
-              marginTop: '16px',
-            }}
-          >
-            Book Now
-          </Link>
+          <div style={{ marginTop: '12px', display: 'flex', gap: '10px' }}>
+            <a
+              href="/booking"
+              style={{
+                background: '#3a8dde',
+                color: '#ffffff',
+                padding: '10px 20px',
+                borderRadius: '6px',
+                fontSize: '14px',
+                fontWeight: 600,
+                textDecoration: 'none',
+              }}
+            >
+              Book Now
+            </a>
+            <a
+              href="https://wa.me/919363799250?text=Hi!%20I%20want%20to%20book%20a%20celebration"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                background: '#25d366',
+                color: '#ffffff',
+                padding: '10px 20px',
+                borderRadius: '6px',
+                fontSize: '14px',
+                fontWeight: 600,
+                textDecoration: 'none',
+              }}
+            >
+              WhatsApp
+            </a>
+          </div>
         </div>
       )}
 
       <style>{`
+        .nav-link-desktop:hover { color: #ffffff !important; }
         @media (max-width: 768px) {
-          .nav-desktop { display: none !important; }
-          .nav-mobile-btn { display: block !important; }
+          .nav-link-desktop { display: none !important; }
+          .phone-desktop { display: none !important; }
+          .book-btn-desktop { display: none !important; }
+          .hamburger-btn { display: block !important; }
+        }
+        @media (min-width: 769px) {
+          .hamburger-btn { display: none !important; }
+          .mobile-menu { display: none !important; }
         }
       `}</style>
     </header>

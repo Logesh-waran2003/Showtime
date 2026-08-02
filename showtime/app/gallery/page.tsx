@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Gallery from '@/components/Gallery';
-import { galleryItems } from '@/lib/galleryData';
 
 export const metadata: Metadata = {
   title: 'Gallery',
@@ -8,19 +7,9 @@ export const metadata: Metadata = {
     'Browse photos from Showtime Private Theatre — birthdays, anniversaries, surprise parties, and more in Pondicherry.',
 };
 
-// Extended gallery with 12 items for the full gallery page
-const fullGalleryItems = [
-  ...galleryItems,
-  { id: 9, aspectRatio: '4/3' as const, label: 'Romantic Date Night', image: 'https://images.unsplash.com/photo-1529636798458-92182e662485?w=600&q=80' },
-  { id: 10, aspectRatio: '3/4' as const, label: 'Kids Birthday Party', image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=600&q=80' },
-  { id: 11, aspectRatio: '1/1' as const, label: 'Floral Decoration Setup', image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=80' },
-  { id: 12, aspectRatio: '16/9' as const, label: 'Private Screening Hall', image: 'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=600&q=80' },
-];
-
 export default function GalleryPage() {
   return (
     <div style={{ backgroundColor: '#0d0d0d', minHeight: '100vh' }}>
-      {/* Hero banner */}
       <section
         style={{
           background: 'linear-gradient(135deg, #0d0d0d 0%, #0d1a2e 60%, #0d0d0d 100%)',
@@ -30,15 +19,8 @@ export default function GalleryPage() {
         }}
       >
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '16px' }}>
-            <div style={{ width: '32px', height: '2px', backgroundColor: '#3a8dde' }} aria-hidden="true" />
-            <span style={{ color: '#3a8dde', fontSize: '13px', fontWeight: 700, letterSpacing: '3px', textTransform: 'uppercase' }}>
-              OUR GALLERY
-            </span>
-            <div style={{ width: '32px', height: '2px', backgroundColor: '#3a8dde' }} aria-hidden="true" />
-          </div>
           <h1 style={{ color: '#ffffff', fontSize: 'clamp(32px, 5vw, 54px)', fontWeight: 800, margin: '0 0 16px' }}>
-            Happy Faces
+            Our Gallery
           </h1>
           <p style={{ color: '#aaaaaa', fontSize: '17px', margin: 0 }}>
             A glimpse into the celebrations, smiles, and stories we&apos;ve been part of
@@ -46,7 +28,7 @@ export default function GalleryPage() {
         </div>
       </section>
 
-      <Gallery items={fullGalleryItems} />
+      <Gallery />
     </div>
   );
 }

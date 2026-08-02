@@ -1,120 +1,131 @@
+'use client';
+
 import Image from 'next/image';
-import Link from 'next/link';
 
 export default function Hero() {
   return (
-    <section style={{
-      position: 'relative',
-      width: '100%',
-      height: '100vh',
-      minHeight: '600px',
-      overflow: 'hidden',
-      display: 'flex',
-      alignItems: 'center',
-    }}>
-      {/* Background image */}
+    <section style={{ position: 'relative', width: '100%', height: '100vh', minHeight: '600px', overflow: 'hidden' }}>
       <Image
         src="/images/birthday.jpg"
         alt="Birthday celebration at Showtime Private Theatre"
         fill
+        style={{ objectFit: 'cover' }}
         priority
-        style={{ objectFit: 'cover', objectPosition: 'center' }}
       />
-
-      {/* Gradient overlay: solid black on left fading to transparent */}
       <div style={{
         position: 'absolute',
         inset: 0,
-        background: 'linear-gradient(to right, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.7) 40%, rgba(0,0,0,0.2) 70%, transparent 100%)',
-        zIndex: 1,
+        background: 'linear-gradient(to right, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.6) 50%, rgba(0,0,0,0.3) 100%)',
       }} />
-
-      {/* Content */}
       <div style={{
         position: 'relative',
-        zIndex: 2,
-        maxWidth: '1100px',
-        margin: '0 auto',
-        padding: '0 24px',
-        width: '100%',
+        zIndex: 10,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        padding: '0 8%',
+        maxWidth: '800px',
       }}>
-        <div style={{ maxWidth: '560px' }}>
-          <h1 style={{
-            fontSize: 'clamp(2.5rem, 6vw, 4.5rem)',
-            fontWeight: 800,
-            lineHeight: 1.05,
-            letterSpacing: '-0.03em',
-            marginBottom: '24px',
-          }}>
-            <span style={{ display: 'block', color: '#e2e8f0' }}>Your Celebration.</span>
-            <span style={{ display: 'block', color: '#3a8dde' }}>Our Cinema.</span>
-          </h1>
+        <span style={{
+          display: 'inline-block',
+          background: 'rgba(58,141,222,0.15)',
+          border: '1px solid rgba(58,141,222,0.4)',
+          borderRadius: '20px',
+          padding: '6px 16px',
+          fontSize: '14px',
+          color: '#61b6ff',
+          marginBottom: '20px',
+          width: 'fit-content',
+        }}>
+          🌟 Pondicherry&apos;s #1 Private Theatre
+        </span>
 
-          <p style={{
-            color: '#cbd5e1',
-            fontSize: 'clamp(1rem, 2vw, 1.2rem)',
-            lineHeight: 1.6,
-            marginBottom: '8px',
-          }}>
-            Private theatre for birthdays, anniversaries, proposals & date nights
-          </p>
+        <h1 style={{
+          fontSize: 'clamp(36px, 5vw, 64px)',
+          fontWeight: 800,
+          lineHeight: 1.1,
+          margin: '0 0 16px 0',
+          color: '#ffffff',
+        }}>
+          Your Celebration.<br />Our Cinema.
+        </h1>
 
-          <p style={{
-            color: '#64748b',
-            fontSize: '15px',
-            marginBottom: '32px',
-            fontWeight: 500,
-          }}>
-            📍 Pondicherry & Chennai
-          </p>
+        <p style={{
+          fontSize: '18px',
+          color: '#cccccc',
+          lineHeight: 1.6,
+          margin: '0 0 12px 0',
+          maxWidth: '560px',
+        }}>
+          Private movie theatre for birthdays, anniversaries, proposals, date nights &amp; surprise parties. 6-14 guests.
+        </p>
 
-          {/* Buttons */}
-          <div style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '28px' }}>
-            <Link
-              href="/booking"
-              style={{
-                backgroundColor: '#3a8dde',
-                color: '#ffffff',
-                padding: '14px 36px',
-                borderRadius: '8px',
-                fontSize: '16px',
-                fontWeight: 600,
-                display: 'inline-block',
-                transition: 'background-color 0.2s',
-              }}
-            >
-              Book Now
-            </Link>
-            <a
-              href="https://wa.me/919363799250"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                color: '#25d366',
-                padding: '14px 36px',
-                borderRadius: '8px',
-                fontSize: '16px',
-                fontWeight: 600,
-                border: '1px solid rgba(37, 211, 102, 0.5)',
-                backgroundColor: 'rgba(37, 211, 102, 0.05)',
-                display: 'inline-block',
-                transition: 'background-color 0.2s',
-              }}
-            >
-              WhatsApp Us
-            </a>
-          </div>
+        <p style={{
+          fontSize: '20px',
+          fontWeight: 700,
+          color: '#3a8dde',
+          margin: '0 0 28px 0',
+        }}>
+          Starting from ₹1,999 for 2 hours
+        </p>
 
-          {/* Trust line */}
-          <p style={{
-            color: '#94a3b8',
-            fontSize: '14px',
-            letterSpacing: '0.01em',
-          }}>
-            13K+ Instagram followers · 4.9★ · Starting from ₹999
-          </p>
+        <div style={{ display: 'flex', gap: '14px', flexWrap: 'wrap', marginBottom: '16px' }}>
+          <a
+            href="/booking"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: '#3a8dde',
+              color: '#ffffff',
+              padding: '14px 28px',
+              borderRadius: '8px',
+              fontSize: '16px',
+              fontWeight: 600,
+              textDecoration: 'none',
+              transition: 'transform 0.2s, box-shadow 0.2s',
+            }}
+          >
+            Book Now →
+          </a>
+          <a
+            href="https://wa.me/919363799250?text=Hi!%20I%20want%20to%20book%20a%20celebration"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '8px',
+              background: '#25d366',
+              color: '#ffffff',
+              padding: '14px 28px',
+              borderRadius: '8px',
+              fontSize: '16px',
+              fontWeight: 600,
+              textDecoration: 'none',
+              transition: 'transform 0.2s, box-shadow 0.2s',
+            }}
+          >
+            📱 WhatsApp Us
+          </a>
         </div>
+
+        <p style={{ fontSize: '14px', color: '#999999', margin: 0 }}>
+          ✅ Free cancellation 48hrs before · 50% deposit only
+        </p>
       </div>
+
+      <style>{`
+        @media (max-width: 768px) {
+          section > div:last-of-type {
+            align-items: center;
+            text-align: center;
+            padding: 0 5% !important;
+            max-width: 100% !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
