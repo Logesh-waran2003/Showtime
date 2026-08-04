@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 
 // Hero background images that cycle
 const heroImages = [
+  'https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=1600&q=80&fit=crop',
   'https://images.unsplash.com/photo-1440404653325-ab127d49abc1?w=1600&q=80&fit=crop',
   'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&q=80&fit=crop',
   'https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=1600&q=80&fit=crop',
