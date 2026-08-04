@@ -1,6 +1,13 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 
+const NAV_LINKS = [
+  { label: 'Services', href: '#services' },
+  { label: 'Packages', href: '#packages' },
+  { label: 'Gallery', href: '#gallery' },
+  { label: 'Contact', href: '#contact' },
+]
+
 function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -13,16 +20,19 @@ function Navbar() {
     >
       <div className="flex justify-between items-center px-5 md:px-margin-desktop py-4">
         {/* Logo */}
-        <div className="font-sora text-headline-md font-bold tracking-tighter text-primary uppercase">
-          PVR CINEMAS
-        </div>
+        <a href="#" className="flex items-center gap-3">
+          <img src="/logo.png" alt="Showtime" className="h-10 w-10 rounded-full object-cover" />
+          <span className="font-sora text-headline-md font-bold tracking-tighter text-primary uppercase">
+            SHOWTIME
+          </span>
+        </a>
 
         {/* Desktop Nav Links */}
         <div className="hidden md:flex items-center gap-10">
-          {['Experience', 'Cinemas', 'Membership', 'Locations', 'About'].map((item, i) => (
+          {NAV_LINKS.map((item, i) => (
             <motion.a
-              key={item}
-              href={`#${item.toLowerCase()}`}
+              key={item.label}
+              href={item.href}
               className={`font-space-grotesk text-label-caps uppercase transition-colors ${
                 i === 0
                   ? 'text-primary border-b-2 border-primary pb-1'
@@ -31,31 +41,24 @@ function Navbar() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              {item}
+              {item.label}
             </motion.a>
           ))}
         </div>
 
         {/* Right side */}
         <div className="flex items-center gap-6">
-          {/* Search */}
-          <div className="hidden lg:flex items-center bg-white/5 border border-white/10 rounded-full px-4 py-1.5 gap-2">
-            <span className="material-symbols-outlined text-outline text-sm">search</span>
-            <input
-              className="bg-transparent border-none focus:outline-none text-body-md w-32 placeholder:text-outline-variant text-on-surface"
-              placeholder="Search movies..."
-              type="text"
-            />
-          </div>
-
-          {/* Book Now Button */}
-          <motion.button
-            className="bg-primary-container text-on-primary font-space-grotesk text-label-caps px-8 py-2.5 rounded-full font-bold uppercase electric-glow"
+          {/* Book Now Button - WhatsApp link */}
+          <motion.a
+            href="https://wa.me/919360600000"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="bg-primary-container text-on-primary font-space-grotesk text-label-caps px-8 py-2.5 rounded-full font-bold uppercase electric-glow inline-block"
             whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(0, 229, 255, 0.6)' }}
             whileTap={{ scale: 0.95 }}
           >
             Book Now
-          </motion.button>
+          </motion.a>
 
           {/* Mobile menu toggle */}
           <button
@@ -78,15 +81,24 @@ function Navbar() {
           exit={{ opacity: 0, height: 0 }}
           className="md:hidden px-5 pb-6 border-t border-white/5"
         >
-          {['Experience', 'Cinemas', 'Membership', 'Locations', 'About'].map((item) => (
+          {NAV_LINKS.map((item) => (
             <a
-              key={item}
-              href={`#${item.toLowerCase()}`}
+              key={item.label}
+              href={item.href}
+              onClick={() => setIsOpen(false)}
               className="block py-3 font-space-grotesk text-label-caps uppercase text-on-surface-variant hover:text-primary transition-colors"
             >
-              {item}
+              {item.label}
             </a>
           ))}
+          <a
+            href="https://wa.me/919360600000"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block py-3 font-space-grotesk text-label-caps uppercase text-primary font-bold"
+          >
+            Book Now
+          </a>
         </motion.div>
       )}
     </motion.nav>

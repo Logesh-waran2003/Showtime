@@ -1,4 +1,3 @@
-import { motion } from 'framer-motion'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import ExperienceGrid from './components/ExperienceGrid'
@@ -18,14 +17,27 @@ function App() {
       <ParticleBackground />
       <Navbar />
       <main>
+        {/* Services - Bento Grid */}
         <Hero />
         <ExperienceGrid />
+
+        {/* Packages */}
         <CinematicFormats />
+
+        {/* How It Works */}
         <Walkthrough />
+
+        {/* Emotional Quote */}
         <BrandEmotional />
+
+        {/* Social Proof */}
         <ReelsSection />
         <CommunityGallery />
+
+        {/* Why Choose Us */}
         <Membership />
+
+        {/* Call to Action */}
         <FinalCTA />
       </main>
       <Footer />
