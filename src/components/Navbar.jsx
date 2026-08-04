@@ -8,7 +8,7 @@ const NAV_LINKS = [
   { label: 'Contact', href: '#contact' },
 ]
 
-function Navbar() {
+function Navbar({ onBookNow }) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -48,17 +48,15 @@ function Navbar() {
 
         {/* Right side */}
         <div className="flex items-center gap-6">
-          {/* Book Now Button - WhatsApp link */}
-          <motion.a
-            href="https://wa.me/919360600000"
-            target="_blank"
-            rel="noopener noreferrer"
+          {/* Book Now Button */}
+          <motion.button
+            onClick={onBookNow}
             className="bg-primary-container text-on-primary font-space-grotesk text-label-caps px-8 py-2.5 rounded-full font-bold uppercase electric-glow inline-block"
             whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(0, 229, 255, 0.6)' }}
             whileTap={{ scale: 0.95 }}
           >
             Book Now
-          </motion.a>
+          </motion.button>
 
           {/* Mobile menu toggle */}
           <button
@@ -91,14 +89,12 @@ function Navbar() {
               {item.label}
             </a>
           ))}
-          <a
-            href="https://wa.me/919360600000"
-            target="_blank"
-            rel="noopener noreferrer"
+          <button
+            onClick={() => { setIsOpen(false); onBookNow(); }}
             className="block py-3 font-space-grotesk text-label-caps uppercase text-primary font-bold"
           >
             Book Now
-          </a>
+          </button>
         </motion.div>
       )}
     </motion.nav>

@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import ExperienceGrid from './components/ExperienceGrid'
@@ -11,12 +12,21 @@ import ParticleBackground from './components/ParticleBackground'
 import ReelsSection from './components/ReelsSection'
 import InstagramDome from './components/InstagramDome'
 import FloatingSocial from './components/FloatingSocial'
+import BookingModal from './components/BookingModal'
 
 function App() {
+  const [isBookingOpen, setIsBookingOpen] = useState(false)
+
+  // Expose openBooking globally so any component can trigger the modal
+  useEffect(() => {
+    window.openBooking = () => setIsBookingOpen(true)
+    return () => { delete window.openBooking }
+  }, [])
+
   return (
     <div className="dark relative">
       <ParticleBackground />
-      <Navbar />
+      <Navbar onBookNow={() => setIsBookingOpen(true)} />
       <FloatingSocial />
       <main>
         {/* Services - Bento Grid */}
@@ -43,6 +53,7 @@ function App() {
         <FinalCTA />
       </main>
       <Footer />
+      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
     </div>
   )
 }
