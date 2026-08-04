@@ -1,19 +1,19 @@
 import { motion, useInView } from 'framer-motion'
-import { useRef, useEffect, useState } from 'react'
+import { useRef } from 'react'
 import CircularGallery from './CircularGallery'
 
-// Reviews data - shown as cards in the 3D circular gallery
+// Reviews - short clean text that displays clearly on the 3D carousel
 const reviews = [
-  { image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&h=600&fit=crop', text: '"Best birthday surprise!" - Priya ⭐⭐⭐⭐⭐' },
-  { image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=600&fit=crop', text: '"Perfect proposal setup" - Rahul ⭐⭐⭐⭐⭐' },
-  { image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=600&fit=crop', text: '"Amazing anniversary!" - Deepa ⭐⭐⭐⭐⭐' },
-  { image: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=800&h=600&fit=crop', text: '"PS5 party was epic!" - Karthik ⭐⭐⭐⭐⭐' },
-  { image: 'https://images.unsplash.com/photo-1464349153735-7db50ed83c84?w=800&h=600&fit=crop', text: '"Kids loved the setup" - Meena ⭐⭐⭐⭐⭐' },
-  { image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&h=600&fit=crop', text: '"Unforgettable date night" - Vijay ⭐⭐⭐⭐⭐' },
-  { image: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=800&h=600&fit=crop', text: '"10/10 decor & vibes" - Sneha ⭐⭐⭐⭐⭐' },
-  { image: 'https://images.unsplash.com/photo-1529543544006-97e4cddea4eb?w=800&h=600&fit=crop', text: '"Best bride-to-be party!" - Anitha ⭐⭐⭐⭐⭐' },
-  { image: 'https://images.unsplash.com/photo-1543589077-47d06c1c7b9d?w=800&h=600&fit=crop', text: '"Romantic candle setup" - Sindhu ⭐⭐⭐⭐⭐' },
-  { image: 'https://images.unsplash.com/photo-1529636798458-92182e662485?w=800&h=600&fit=crop', text: '"She said YES!" - Arun ⭐⭐⭐⭐⭐' },
+  { image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&h=600&fit=crop', text: 'Best birthday surprise! - Priya' },
+  { image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=600&fit=crop', text: 'Perfect proposal setup - Rahul' },
+  { image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=600&fit=crop', text: 'Amazing anniversary! - Deepa' },
+  { image: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=800&h=600&fit=crop', text: 'PS5 party was epic! - Karthik' },
+  { image: 'https://images.unsplash.com/photo-1464349153735-7db50ed83c84?w=800&h=600&fit=crop', text: 'Kids loved it! - Meena' },
+  { image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&h=600&fit=crop', text: 'Unforgettable date - Vijay' },
+  { image: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=800&h=600&fit=crop', text: '10/10 decor vibes - Sneha' },
+  { image: 'https://images.unsplash.com/photo-1529543544006-97e4cddea4eb?w=800&h=600&fit=crop', text: 'Best bride-to-be! - Anitha' },
+  { image: 'https://images.unsplash.com/photo-1543589077-47d06c1c7b9d?w=800&h=600&fit=crop', text: 'Romantic candle night - Sindhu' },
+  { image: 'https://images.unsplash.com/photo-1529636798458-92182e662485?w=800&h=600&fit=crop', text: 'She said YES! - Arun' },
 ]
 
 function CustomerReviews() {
@@ -38,7 +38,7 @@ function CustomerReviews() {
         </span>
         <h2 className="font-sora text-headline-lg mt-4">What Our Guests Say</h2>
         <p className="text-on-surface-variant font-manrope mt-4 max-w-lg mx-auto">
-          200+ celebrations. 4.9★ rating. Drag to explore real moments.
+          200+ celebrations. 4.9★ rating. Drag to explore.
         </p>
       </motion.div>
 
@@ -47,9 +47,9 @@ function CustomerReviews() {
         <CircularGallery
           items={reviews}
           bend={-3}
-          textColor="#c3f5ff"
+          textColor="#ffffff"
           borderRadius={0.08}
-          font="bold 16px Sora"
+          font="bold 22px Sora"
           fontUrl="https://fonts.googleapis.com/css2?family=Sora:wght@700&display=swap"
           scrollSpeed={3}
           scrollEase={0.08}

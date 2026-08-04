@@ -181,13 +181,15 @@ function InstagramDome() {
                 onClick={(e) => handleCardClick(e, reel)}
               >
                 <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-all duration-300 shadow-lg group-hover:shadow-[0_15px_40px_rgba(0,229,255,0.12)] group-hover:-translate-y-1">
-                  {/* Live Instagram embed */}
+                  {/* Live Instagram embed - no scrollbar, fitted */}
                   <iframe
                     src={`${reel.url}embed/`}
-                    className="absolute inset-0 w-full h-full border-0 pointer-events-none"
+                    className="absolute inset-0 w-[calc(100%+20px)] h-[calc(100%+20px)] border-0 pointer-events-none -ml-[10px] -mt-[10px]"
                     loading="lazy"
                     title={reel.title}
                     tabIndex="-1"
+                    scrolling="no"
+                    style={{ overflow: 'hidden' }}
                   />
                   {/* Click overlay */}
                   <div className="absolute inset-0 z-10" />

@@ -107,3 +107,12 @@
   90% { opacity: 1; }
   100% { transform: translateY(-100vh) translateX(20px); opacity: 0; }
 }
+
+/* Hide iframe scrollbars */
+iframe {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+iframe::-webkit-scrollbar {
+  display: none;
+}
