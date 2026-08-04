@@ -1,24 +1,112 @@
 import { motion, useInView } from 'framer-motion'
-import { useRef } from 'react'
+import { useRef, useState, useEffect, useMemo } from 'react'
 import CircularGallery from './CircularGallery'
 
-// Reviews - short clean text that displays clearly on the 3D carousel
-const reviews = [
-  { image: 'https://images.unsplash.com/photo-1530103862676-de8c9debad1d?w=800&h=600&fit=crop', text: 'Best birthday surprise! - Priya' },
-  { image: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=600&fit=crop', text: 'Perfect proposal setup - Rahul' },
-  { image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=600&fit=crop', text: 'Amazing anniversary! - Deepa' },
-  { image: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?w=800&h=600&fit=crop', text: 'PS5 party was epic! - Karthik' },
-  { image: 'https://images.unsplash.com/photo-1464349153735-7db50ed83c84?w=800&h=600&fit=crop', text: 'Kids loved it! - Meena' },
-  { image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&h=600&fit=crop', text: 'Unforgettable date - Vijay' },
-  { image: 'https://images.unsplash.com/photo-1527529482837-4698179dc6ce?w=800&h=600&fit=crop', text: '10/10 decor vibes - Sneha' },
-  { image: 'https://images.unsplash.com/photo-1529543544006-97e4cddea4eb?w=800&h=600&fit=crop', text: 'Best bride-to-be! - Anitha' },
-  { image: 'https://images.unsplash.com/photo-1543589077-47d06c1c7b9d?w=800&h=600&fit=crop', text: 'Romantic candle night - Sindhu' },
-  { image: 'https://images.unsplash.com/photo-1529636798458-92182e662485?w=800&h=600&fit=crop', text: 'She said YES! - Arun' },
+// Reviews data
+const reviewsData = [
+  { name: 'Priya', event: 'Birthday Surprise', rating: 5, text: 'Best birthday surprise ever! The fog entry was magical ✨' },
+  { name: 'Rahul', event: 'Proposal', rating: 5, text: 'Perfect proposal setup. She said YES! 💍' },
+  { name: 'Deepa & Vijay', event: 'Anniversary', rating: 5, text: 'Amazing 10th anniversary celebration! So romantic ❤️' },
+  { name: 'Karthik', event: 'PS5 Gaming', rating: 5, text: 'PS5 on big screen was EPIC! Best gaming party 🎮' },
+  { name: 'Meena', event: 'Kids Birthday', rating: 5, text: 'Kids absolutely loved the balloon decor! 🎈' },
+  { name: 'Vijay & Sindhu', event: 'Date Night', rating: 5, text: 'Unforgettable romantic date night. Candles + roses 🌹' },
+  { name: 'Sneha', event: 'Birthday', rating: 5, text: '10/10 decor and vibes. Team was super helpful! 🎉' },
+  { name: 'Anitha', event: 'Bride-to-be', rating: 5, text: 'Best bride-to-be party with my besties! 👰💖' },
+  { name: 'Sivabalan', event: 'Birthday', rating: 5, text: 'Made my wife feel so special. Worth every rupee! 💕' },
+  { name: 'Roshinie', event: 'Birthday', rating: 5, text: 'Surprised my dad - he was so emotional! Best day 🥹' },
 ]
+
+// Generate review card images using canvas
+function generateReviewCardImage(review) {
+  const canvas = document.createElement('canvas')
+  canvas.width = 800
+  canvas.height = 600
+  const ctx = canvas.getContext('2d')
+
+  // Background gradient
+  const gradient = ctx.createLinearGradient(0, 0, 800, 600)
+  gradient.addColorStop(0, '#1a1a2e')
+  gradient.addColorStop(1, '#0f0f1a')
+  ctx.fillStyle = gradient
+  ctx.roundRect(0, 0, 800, 600, 24)
+  ctx.fill()
+
+  // Border
+  ctx.strokeStyle = 'rgba(0, 229, 255, 0.3)'
+  ctx.lineWidth = 2
+  ctx.roundRect(0, 0, 800, 600, 24)
+  ctx.stroke()
+
+  // Stars
+  ctx.font = '36px Arial'
+  ctx.fillStyle = '#fbbf24'
+  const stars = '★'.repeat(review.rating)
+  ctx.fillText(stars, 60, 80)
+
+  // Quote mark
+  ctx.font = 'bold 80px Georgia'
+  ctx.fillStyle = 'rgba(0, 229, 255, 0.2)'
+  ctx.fillText('"', 50, 170)
+
+  // Review text
+  ctx.font = '28px Arial'
+  ctx.fillStyle = '#ffffff'
+  const words = review.text.split(' ')
+  let line = ''
+  let y = 200
+  for (let word of words) {
+    const testLine = line + word + ' '
+    if (ctx.measureText(testLine).width > 680) {
+      ctx.fillText(line.trim(), 60, y)
+      line = word + ' '
+      y += 42
+    } else {
+      line = testLine
+    }
+  }
+  ctx.fillText(line.trim(), 60, y)
+
+  // Divider
+  ctx.strokeStyle = 'rgba(0, 229, 255, 0.2)'
+  ctx.lineWidth = 1
+  ctx.beginPath()
+  ctx.moveTo(60, 420)
+  ctx.lineTo(740, 420)
+  ctx.stroke()
+
+  // Name
+  ctx.font = 'bold 26px Arial'
+  ctx.fillStyle = '#c3f5ff'
+  ctx.fillText(review.name, 60, 470)
+
+  // Event type
+  ctx.font = '20px Arial'
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.6)'
+  ctx.fillText(review.event, 60, 510)
+
+  // Verified badge
+  ctx.font = '18px Arial'
+  ctx.fillStyle = '#00e5ff'
+  ctx.fillText('✓ Verified', 660, 510)
+
+  return canvas.toDataURL('image/png')
+}
 
 function CustomerReviews() {
   const sectionRef = useRef(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
+  const [reviewImages, setReviewImages] = useState([])
+
+  // Generate card images on mount
+  useEffect(() => {
+    const images = reviewsData.map(review => ({
+      image: generateReviewCardImage(review),
+      text: `${review.name} - ${review.event}`
+    }))
+    setReviewImages(images)
+  }, [])
+
+  if (reviewImages.length === 0) return null
 
   return (
     <section id="reviews" className="py-section-gap bg-surface-container-lowest relative overflow-hidden">
@@ -38,18 +126,18 @@ function CustomerReviews() {
         </span>
         <h2 className="font-sora text-headline-lg mt-4">What Our Guests Say</h2>
         <p className="text-on-surface-variant font-manrope mt-4 max-w-lg mx-auto">
-          200+ celebrations. 4.9★ rating. Drag to explore.
+          200+ celebrations. 4.9★ rating. Drag to browse reviews.
         </p>
       </motion.div>
 
-      {/* CircularGallery - 3D curved scrollable carousel */}
+      {/* CircularGallery with review card images */}
       <div className="relative h-[500px] sm:h-[600px] w-full">
         <CircularGallery
-          items={reviews}
+          items={reviewImages}
           bend={-3}
-          textColor="#ffffff"
-          borderRadius={0.08}
-          font="bold 22px Sora"
+          textColor="#c3f5ff"
+          borderRadius={0.06}
+          font="bold 18px Sora"
           fontUrl="https://fonts.googleapis.com/css2?family=Sora:wght@700&display=swap"
           scrollSpeed={3}
           scrollEase={0.08}

@@ -169,13 +169,15 @@ function ReelsSection() {
             >
               {/* Card with visible Instagram embed */}
               <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-all duration-300 shadow-lg group-hover:shadow-[0_20px_50px_rgba(0,229,255,0.15)]">
-                {/* Live Instagram embed visible in card */}
+                {/* Live Instagram embed visible in card - no scrollbar */}
                 <iframe
                   src={`${reel.instagramUrl}embed/`}
-                  className="absolute inset-0 w-full h-full border-0 pointer-events-none"
+                  className="absolute -inset-2 w-[calc(100%+16px)] h-[calc(100%+16px)] border-0 pointer-events-none"
                   loading="lazy"
                   title={reel.title}
                   tabIndex="-1"
+                  scrolling="no"
+                  style={{ overflow: 'hidden' }}
                 />
 
                 {/* Clickable overlay - prevents iframe from capturing clicks */}
