@@ -167,36 +167,34 @@ function ReelsSection() {
               onClick={(e) => handleReelClick(e, reel)}
               onMouseEnter={() => setIsPaused(true)}
             >
-              {/* Card with visible Instagram embed */}
+              {/* Card with visible thumbnail */}
               <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-all duration-300 shadow-lg group-hover:shadow-[0_20px_50px_rgba(0,229,255,0.15)]">
-                {/* Live Instagram embed visible in card - no scrollbar */}
-                <iframe
-                  src={`${reel.instagramUrl}embed/`}
-                  className="absolute -inset-2 w-[calc(100%+16px)] h-[calc(100%+16px)] border-0 pointer-events-none"
+                {/* Thumbnail image */}
+                <img
+                  src={reel.thumb}
+                  alt={reel.title}
+                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
-                  title={reel.title}
-                  tabIndex="-1"
-                  scrolling="no"
-                  style={{ overflow: 'hidden' }}
                 />
+                {/* Dark gradient */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
 
-                {/* Clickable overlay - prevents iframe from capturing clicks */}
+                {/* Clickable overlay */}
                 <div className="absolute inset-0 z-10 bg-transparent group-hover:bg-black/10 transition-colors duration-300" />
 
                 {/* Hover play indicator */}
                 <div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="w-16 h-16 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center border border-primary/50 electric-glow">
-                    <span className="material-symbols-outlined text-primary text-3xl">fullscreen</span>
+                    <span className="material-symbols-outlined text-primary text-3xl">play_arrow</span>
                   </div>
                 </div>
 
-                {/* Views badge */}
-                {reel.views && (
-                  <div className="absolute bottom-3 left-3 z-20 bg-black/70 backdrop-blur-sm px-3 py-1.5 rounded-full flex items-center gap-1.5">
-                    <span className="material-symbols-outlined text-primary text-xs">visibility</span>
-                    <span className="text-[11px] text-white font-bold">{reel.views}</span>
-                  </div>
-                )}
+                {/* Title at bottom */}
+                <div className="absolute bottom-3 left-3 right-3 z-20">
+                  <p className="text-white text-[11px] font-sora font-semibold line-clamp-1 drop-shadow-lg">
+                    {reel.title}
+                  </p>
+                </div>
 
                 {/* Category badge */}
                 <div className="absolute top-3 left-3 z-20 bg-primary-container text-on-primary text-[10px] font-bold px-2.5 py-1 rounded-full font-space-grotesk uppercase">
