@@ -189,15 +189,17 @@ function InstagramDome() {
                 onClick={(e) => handleCardClick(e, reel)}
               >
                 <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-all duration-300 shadow-lg group-hover:shadow-[0_15px_40px_rgba(0,229,255,0.12)] group-hover:-translate-y-1">
-                  {/* Thumbnail image - instant load, no scrollbar */}
-                  <img
-                    src={reel.thumb}
-                    alt={reel.title}
-                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  {/* Instagram embed */}
+                  <iframe
+                    src={`${reel.url}embed/`}
+                    className="absolute inset-0 w-full h-full border-0 pointer-events-none"
                     loading="lazy"
+                    title={reel.title}
+                    tabIndex="-1"
+                    scrolling="no"
                   />
                   {/* Dark gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+                  <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/80 to-transparent z-10 pointer-events-none" />
                   {/* Hover play icon */}
                   <div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                     <div className="w-14 h-14 rounded-full bg-black/60 backdrop-blur-md flex items-center justify-center border border-primary/50">
@@ -208,7 +210,7 @@ function InstagramDome() {
                   <div className="absolute top-3 left-3 z-20 bg-primary-container text-on-primary text-[9px] font-bold px-2 py-0.5 rounded-full font-space-grotesk uppercase">
                     {reel.category}
                   </div>
-                  {/* Title */}
+                  {/* Title at bottom */}
                   <div className="absolute bottom-3 left-3 right-3 z-20">
                     <p className="text-white text-[11px] font-sora font-semibold line-clamp-2 drop-shadow-lg">
                       {reel.title}

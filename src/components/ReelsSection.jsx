@@ -167,17 +167,19 @@ function ReelsSection() {
               onClick={(e) => handleReelClick(e, reel)}
               onMouseEnter={() => setIsPaused(true)}
             >
-              {/* Card with visible thumbnail */}
+              {/* Card with visible Instagram embed */}
               <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-all duration-300 shadow-lg group-hover:shadow-[0_20px_50px_rgba(0,229,255,0.15)]">
-                {/* Thumbnail image */}
-                <img
-                  src={reel.thumb}
-                  alt={reel.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                {/* Instagram embed */}
+                <iframe
+                  src={`${reel.instagramUrl}embed/`}
+                  className="absolute inset-0 w-full h-full border-0 pointer-events-none"
                   loading="lazy"
+                  title={reel.title}
+                  tabIndex="-1"
+                  scrolling="no"
                 />
-                {/* Dark gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20" />
+                {/* Dark gradient at bottom for text */}
+                <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-black/80 to-transparent z-10 pointer-events-none" />
 
                 {/* Clickable overlay */}
                 <div className="absolute inset-0 z-10 bg-transparent group-hover:bg-black/10 transition-colors duration-300" />
