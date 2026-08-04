@@ -23,67 +23,68 @@ function generateReviewCardImage(review) {
   canvas.height = 600
   const ctx = canvas.getContext('2d')
 
-  // White background
+  // White background with rounded corners
   ctx.fillStyle = '#ffffff'
   ctx.beginPath()
-  ctx.roundRect(0, 0, 800, 600, 24)
+  ctx.roundRect(0, 0, 800, 600, 20)
   ctx.fill()
 
-  // Subtle shadow border
-  ctx.strokeStyle = 'rgba(0, 0, 0, 0.08)'
-  ctx.lineWidth = 2
-  ctx.beginPath()
-  ctx.roundRect(0, 0, 800, 600, 24)
-  ctx.stroke()
+  // Top accent bar
+  ctx.fillStyle = '#00bcd4'
+  ctx.fillRect(0, 0, 800, 6)
 
-  // Stars - gold
-  ctx.font = '40px Arial'
+  // Stars - gold, smaller
+  ctx.font = '28px Arial'
   ctx.fillStyle = '#f59e0b'
-  const stars = '★'.repeat(review.rating)
-  ctx.fillText(stars, 50, 80)
+  ctx.fillText('★'.repeat(review.rating), 40, 55)
 
-  // Review text - black, large, wrapped properly
-  ctx.font = '32px Arial'
-  ctx.fillStyle = '#1a1a1a'
+  // Review text - smaller font, black, wrap properly
+  ctx.font = '22px Arial'
+  ctx.fillStyle = '#222222'
   const words = review.text.split(' ')
   let line = ''
-  let y = 160
-  const lineHeight = 48
-  const maxWidth = 680
+  let y = 110
+  const lineHeight = 34
+  const maxWidth = 700
+  const maxY = 380 // don't go below this
   for (let word of words) {
     const testLine = line + word + ' '
     if (ctx.measureText(testLine).width > maxWidth) {
-      ctx.fillText(line.trim(), 50, y)
+      if (y <= maxY) {
+        ctx.fillText(line.trim(), 40, y)
+      }
       line = word + ' '
       y += lineHeight
     } else {
       line = testLine
     }
   }
-  ctx.fillText(line.trim(), 50, y)
+  if (y <= maxY + lineHeight) {
+    ctx.fillText(line.trim(), 40, y)
+  }
 
-  // Divider line
-  ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)'
+  // Divider
+  ctx.strokeStyle = '#e5e5e5'
   ctx.lineWidth = 1
   ctx.beginPath()
-  ctx.moveTo(50, 440)
-  ctx.lineTo(750, 440)
+  ctx.moveTo(40, 440)
+  ctx.lineTo(760, 440)
   ctx.stroke()
 
-  // Name - dark bold
-  ctx.font = 'bold 30px Arial'
+  // Name
+  ctx.font = 'bold 24px Arial'
   ctx.fillStyle = '#111111'
-  ctx.fillText(review.name, 50, 500)
+  ctx.fillText(review.name, 40, 490)
 
-  // Event type - gray
-  ctx.font = '22px Arial'
-  ctx.fillStyle = '#666666'
-  ctx.fillText(review.event, 50, 545)
-
-  // Verified badge - right side
-  ctx.font = 'bold 20px Arial'
+  // Event badge
+  ctx.font = '18px Arial'
   ctx.fillStyle = '#0891b2'
-  ctx.fillText('✓ Verified Review', 570, 545)
+  ctx.fillText(review.event, 40, 530)
+
+  // Verified
+  ctx.font = '16px Arial'
+  ctx.fillStyle = '#16a34a'
+  ctx.fillText('✓ Verified', 660, 530)
 
   return canvas.toDataURL('image/png')
 }
