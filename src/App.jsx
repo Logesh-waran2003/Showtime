@@ -9,6 +9,8 @@ import Membership from './components/Membership'
 import FinalCTA from './components/FinalCTA'
 import Footer from './components/Footer'
 import ParticleBackground from './components/ParticleBackground'
+import ReelsSection from './components/ReelsSection'
+import CommunityGallery from './components/CommunityGallery'
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <CinematicFormats />
         <Walkthrough />
         <BrandEmotional />
+        <ReelsSection />
+        <CommunityGallery />
         <Membership />
         <FinalCTA />
       </main>
