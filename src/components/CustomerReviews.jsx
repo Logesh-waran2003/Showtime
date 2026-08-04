@@ -4,16 +4,16 @@ import CircularGallery from './CircularGallery'
 
 // Reviews data
 const reviewsData = [
-  { name: 'Priya', event: 'Birthday Surprise', rating: 5, text: 'Best birthday surprise ever! The fog entry was magical ✨' },
-  { name: 'Rahul', event: 'Proposal', rating: 5, text: 'Perfect proposal setup. She said YES! 💍' },
-  { name: 'Deepa & Vijay', event: 'Anniversary', rating: 5, text: 'Amazing 10th anniversary celebration! So romantic ❤️' },
-  { name: 'Karthik', event: 'PS5 Gaming', rating: 5, text: 'PS5 on big screen was EPIC! Best gaming party 🎮' },
-  { name: 'Meena', event: 'Kids Birthday', rating: 5, text: 'Kids absolutely loved the balloon decor! 🎈' },
-  { name: 'Vijay & Sindhu', event: 'Date Night', rating: 5, text: 'Unforgettable romantic date night. Candles + roses 🌹' },
-  { name: 'Sneha', event: 'Birthday', rating: 5, text: '10/10 decor and vibes. Team was super helpful! 🎉' },
-  { name: 'Anitha', event: 'Bride-to-be', rating: 5, text: 'Best bride-to-be party with my besties! 👰💖' },
-  { name: 'Sivabalan', event: 'Birthday', rating: 5, text: 'Made my wife feel so special. Worth every rupee! 💕' },
-  { name: 'Roshinie', event: 'Birthday', rating: 5, text: 'Surprised my dad - he was so emotional! Best day 🥹' },
+  { name: 'Priya', event: 'Birthday Surprise', rating: 5, text: 'Best birthday surprise ever! The fog entry was magical. Decorations were so beautiful and the LED name board made it extra special. Highly recommend!' },
+  { name: 'Rahul', event: 'Proposal', rating: 5, text: 'Perfect proposal setup with rose petals and candles. She said YES! The team helped me plan everything secretly. Will never forget this moment.' },
+  { name: 'Deepa & Vijay', event: 'Anniversary', rating: 5, text: 'Our 10th anniversary was celebrated so beautifully here. The memory video on big screen made us both emotional. Best anniversary gift ever!' },
+  { name: 'Karthik', event: 'PS5 Gaming', rating: 5, text: 'PS5 on the cinema big screen was absolutely EPIC! Played FIFA tournament with friends for 3 hours. Best gaming party experience in Pondicherry!' },
+  { name: 'Meena', event: 'Kids Birthday', rating: 5, text: 'My son\'s 5th birthday party was amazing! Kids loved the balloon arch, cartoon on big screen, and the cake cutting setup. So well organized!' },
+  { name: 'Vijay & Sindhu', event: 'Date Night', rating: 5, text: 'Most romantic date night ever! Candles, roses, dim lights, and our favourite movie on the big screen. The couple package is totally worth it.' },
+  { name: 'Sneha', event: 'Birthday', rating: 5, text: 'Gave this as a gift to my best friend. The decor was 10/10, team was super helpful and friendly. Everything was ready perfectly on time!' },
+  { name: 'Anitha', event: 'Bride-to-be', rating: 5, text: 'Best bride-to-be party with my girl gang! Private theatre, music, dance, food - everything was perfect. Thank you Showtime team!' },
+  { name: 'Sivabalan', event: 'Birthday', rating: 5, text: 'Surprised my wife here for her birthday. She was completely shocked! The confetti burst and fog entry made it so cinematic. Worth every rupee!' },
+  { name: 'Roshinie', event: 'Family Celebration', rating: 5, text: 'Threw a surprise party for my dad. He was so emotional seeing the family video on big screen. The private theatre concept is brilliant!' },
 ]
 
 // Generate review card images using canvas
@@ -23,71 +23,67 @@ function generateReviewCardImage(review) {
   canvas.height = 600
   const ctx = canvas.getContext('2d')
 
-  // Background gradient
-  const gradient = ctx.createLinearGradient(0, 0, 800, 600)
-  gradient.addColorStop(0, '#1a1a2e')
-  gradient.addColorStop(1, '#0f0f1a')
-  ctx.fillStyle = gradient
+  // White background
+  ctx.fillStyle = '#ffffff'
+  ctx.beginPath()
   ctx.roundRect(0, 0, 800, 600, 24)
   ctx.fill()
 
-  // Border
-  ctx.strokeStyle = 'rgba(0, 229, 255, 0.3)'
+  // Subtle shadow border
+  ctx.strokeStyle = 'rgba(0, 0, 0, 0.08)'
   ctx.lineWidth = 2
+  ctx.beginPath()
   ctx.roundRect(0, 0, 800, 600, 24)
   ctx.stroke()
 
-  // Stars
-  ctx.font = '36px Arial'
-  ctx.fillStyle = '#fbbf24'
+  // Stars - gold
+  ctx.font = '40px Arial'
+  ctx.fillStyle = '#f59e0b'
   const stars = '★'.repeat(review.rating)
-  ctx.fillText(stars, 60, 80)
+  ctx.fillText(stars, 50, 80)
 
-  // Quote mark
-  ctx.font = 'bold 80px Georgia'
-  ctx.fillStyle = 'rgba(0, 229, 255, 0.2)'
-  ctx.fillText('"', 50, 170)
-
-  // Review text
-  ctx.font = '28px Arial'
-  ctx.fillStyle = '#ffffff'
+  // Review text - black, large, wrapped properly
+  ctx.font = '32px Arial'
+  ctx.fillStyle = '#1a1a1a'
   const words = review.text.split(' ')
   let line = ''
-  let y = 200
+  let y = 160
+  const lineHeight = 48
+  const maxWidth = 680
   for (let word of words) {
     const testLine = line + word + ' '
-    if (ctx.measureText(testLine).width > 680) {
-      ctx.fillText(line.trim(), 60, y)
+    if (ctx.measureText(testLine).width > maxWidth) {
+      ctx.fillText(line.trim(), 50, y)
       line = word + ' '
-      y += 42
+      y += lineHeight
     } else {
       line = testLine
     }
   }
-  ctx.fillText(line.trim(), 60, y)
+  ctx.fillText(line.trim(), 50, y)
 
-  // Divider
-  ctx.strokeStyle = 'rgba(0, 229, 255, 0.2)'
+  // Divider line
+  ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)'
   ctx.lineWidth = 1
   ctx.beginPath()
-  ctx.moveTo(60, 420)
-  ctx.lineTo(740, 420)
+  ctx.moveTo(50, 440)
+  ctx.lineTo(750, 440)
   ctx.stroke()
 
-  // Name
-  ctx.font = 'bold 26px Arial'
-  ctx.fillStyle = '#c3f5ff'
-  ctx.fillText(review.name, 60, 470)
+  // Name - dark bold
+  ctx.font = 'bold 30px Arial'
+  ctx.fillStyle = '#111111'
+  ctx.fillText(review.name, 50, 500)
 
-  // Event type
-  ctx.font = '20px Arial'
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.6)'
-  ctx.fillText(review.event, 60, 510)
+  // Event type - gray
+  ctx.font = '22px Arial'
+  ctx.fillStyle = '#666666'
+  ctx.fillText(review.event, 50, 545)
 
-  // Verified badge
-  ctx.font = '18px Arial'
-  ctx.fillStyle = '#00e5ff'
-  ctx.fillText('✓ Verified', 660, 510)
+  // Verified badge - right side
+  ctx.font = 'bold 20px Arial'
+  ctx.fillStyle = '#0891b2'
+  ctx.fillText('✓ Verified Review', 570, 545)
 
   return canvas.toDataURL('image/png')
 }
