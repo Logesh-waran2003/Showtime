@@ -1,109 +1,82 @@
 import { motion, useInView } from 'framer-motion'
-import { useRef, useState, useEffect, useMemo } from 'react'
-import CircularGallery from './CircularGallery'
+import { useRef, useEffect, useState } from 'react'
 
-// Reviews data
-const reviewsData = [
-  { name: 'Priya', event: 'Birthday Surprise', rating: 5, text: 'Best birthday surprise ever! The fog entry was magical. Decorations were so beautiful and the LED name board made it extra special. Highly recommend!' },
-  { name: 'Rahul', event: 'Proposal', rating: 5, text: 'Perfect proposal setup with rose petals and candles. She said YES! The team helped me plan everything secretly. Will never forget this moment.' },
-  { name: 'Deepa & Vijay', event: 'Anniversary', rating: 5, text: 'Our 10th anniversary was celebrated so beautifully here. The memory video on big screen made us both emotional. Best anniversary gift ever!' },
-  { name: 'Karthik', event: 'PS5 Gaming', rating: 5, text: 'PS5 on the cinema big screen was absolutely EPIC! Played FIFA tournament with friends for 3 hours. Best gaming party experience in Pondicherry!' },
-  { name: 'Meena', event: 'Kids Birthday', rating: 5, text: 'My son\'s 5th birthday party was amazing! Kids loved the balloon arch, cartoon on big screen, and the cake cutting setup. So well organized!' },
-  { name: 'Vijay & Sindhu', event: 'Date Night', rating: 5, text: 'Most romantic date night ever! Candles, roses, dim lights, and our favourite movie on the big screen. The couple package is totally worth it.' },
-  { name: 'Sneha', event: 'Birthday', rating: 5, text: 'Gave this as a gift to my best friend. The decor was 10/10, team was super helpful and friendly. Everything was ready perfectly on time!' },
-  { name: 'Anitha', event: 'Bride-to-be', rating: 5, text: 'Best bride-to-be party with my girl gang! Private theatre, music, dance, food - everything was perfect. Thank you Showtime team!' },
-  { name: 'Sivabalan', event: 'Birthday', rating: 5, text: 'Surprised my wife here for her birthday. She was completely shocked! The confetti burst and fog entry made it so cinematic. Worth every rupee!' },
-  { name: 'Roshinie', event: 'Family Celebration', rating: 5, text: 'Threw a surprise party for my dad. He was so emotional seeing the family video on big screen. The private theatre concept is brilliant!' },
+const reviews = [
+  { name: 'Priya', rating: 5, event: 'Birthday Surprise', message: 'Best birthday surprise ever! The fog entry was magical. Decorations were so beautiful and the LED name board made it extra special. Highly recommend!' },
+  { name: 'Rahul', rating: 5, event: 'Proposal', message: 'Perfect proposal setup with rose petals and candles. She said YES! The team helped me plan everything secretly. Will never forget this moment.' },
+  { name: 'Deepa & Vijay', rating: 5, event: 'Anniversary', message: 'Our 10th anniversary was celebrated so beautifully here. The memory video on big screen made us both emotional. Best anniversary gift ever!' },
+  { name: 'Karthik', rating: 5, event: 'PS5 Gaming', message: 'PS5 on the cinema big screen was absolutely EPIC! Played FIFA tournament with friends for 3 hours. Best gaming party experience in Pondicherry!' },
+  { name: 'Meena', rating: 5, event: 'Kids Birthday', message: 'My son\'s 5th birthday party was amazing! Kids loved the balloon arch, cartoon on big screen, and the cake cutting setup. So well organized!' },
+  { name: 'Vijay & Sindhu', rating: 5, event: 'Date Night', message: 'Most romantic date night ever! Candles, roses, dim lights, and our favourite movie on the big screen. The couple package is totally worth it.' },
+  { name: 'Sneha', rating: 5, event: 'Birthday', message: 'Gave this as a gift to my best friend. The decor was 10/10, team was super helpful and friendly. Everything was ready perfectly on time!' },
+  { name: 'Anitha', rating: 5, event: 'Bride-to-be', message: 'Best bride-to-be party with my girl gang! Private theatre, music, dance, food - everything was perfect. Thank you Showtime team!' },
+  { name: 'Sivabalan', rating: 5, event: 'Birthday', message: 'Surprised my wife here for her birthday. She was completely shocked! The confetti burst and fog entry made it so cinematic. Worth every rupee!' },
+  { name: 'Roshinie', rating: 5, event: 'Family Celebration', message: 'Threw a surprise party for my dad. He was so emotional seeing the family video on big screen. The private theatre concept is brilliant!' },
+  { name: 'Pondy Couple', rating: 5, event: 'Romantic Date', message: 'The romantic setup with candles and roses was dreamy. Perfect private date spot in Pondicherry. We keep coming back every month!' },
+  { name: 'Critixa', rating: 5, event: 'Birthday', message: 'Thanks for perfectly executing this surprise! The LED board, the music, the confetti — everything was on point. My friend cried happy tears!' },
 ]
 
-// Generate review card images using canvas
-function generateReviewCardImage(review) {
-  const canvas = document.createElement('canvas')
-  canvas.width = 800
-  canvas.height = 600
-  const ctx = canvas.getContext('2d')
+function ReviewCard({ review }) {
+  return (
+    <div className="flex-shrink-0 w-[320px] sm:w-[360px] bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+      {/* Stars */}
+      <div className="flex items-center gap-0.5 mb-3">
+        {Array.from({ length: review.rating }).map((_, i) => (
+          <span key={i} className="text-yellow-400 text-lg">★</span>
+        ))}
+      </div>
 
-  // White background with rounded corners
-  ctx.fillStyle = '#ffffff'
-  ctx.beginPath()
-  ctx.roundRect(0, 0, 800, 600, 20)
-  ctx.fill()
+      {/* Message */}
+      <p className="text-gray-800 font-manrope text-sm leading-relaxed mb-4">
+        "{review.message}"
+      </p>
 
-  // Top accent bar
-  ctx.fillStyle = '#00bcd4'
-  ctx.fillRect(0, 0, 800, 6)
-
-  // Stars - gold, smaller
-  ctx.font = '28px Arial'
-  ctx.fillStyle = '#f59e0b'
-  ctx.fillText('★'.repeat(review.rating), 40, 55)
-
-  // Review text - smaller font, black, wrap properly
-  ctx.font = '22px Arial'
-  ctx.fillStyle = '#222222'
-  const words = review.text.split(' ')
-  let line = ''
-  let y = 110
-  const lineHeight = 34
-  const maxWidth = 700
-  const maxY = 380 // don't go below this
-  for (let word of words) {
-    const testLine = line + word + ' '
-    if (ctx.measureText(testLine).width > maxWidth) {
-      if (y <= maxY) {
-        ctx.fillText(line.trim(), 40, y)
-      }
-      line = word + ' '
-      y += lineHeight
-    } else {
-      line = testLine
-    }
-  }
-  if (y <= maxY + lineHeight) {
-    ctx.fillText(line.trim(), 40, y)
-  }
-
-  // Divider
-  ctx.strokeStyle = '#e5e5e5'
-  ctx.lineWidth = 1
-  ctx.beginPath()
-  ctx.moveTo(40, 440)
-  ctx.lineTo(760, 440)
-  ctx.stroke()
-
-  // Name
-  ctx.font = 'bold 24px Arial'
-  ctx.fillStyle = '#111111'
-  ctx.fillText(review.name, 40, 490)
-
-  // Event badge
-  ctx.font = '18px Arial'
-  ctx.fillStyle = '#0891b2'
-  ctx.fillText(review.event, 40, 530)
-
-  // Verified
-  ctx.font = '16px Arial'
-  ctx.fillStyle = '#16a34a'
-  ctx.fillText('✓ Verified', 660, 530)
-
-  return canvas.toDataURL('image/png')
+      {/* Footer */}
+      <div className="flex items-center justify-between border-t border-gray-100 pt-3">
+        <div>
+          <p className="font-sora text-sm font-bold text-gray-900">{review.name}</p>
+          <p className="text-xs text-teal-600 font-space-grotesk uppercase tracking-wider">{review.event}</p>
+        </div>
+        <div className="flex items-center gap-1 text-green-600">
+          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+          </svg>
+          <span className="text-[10px] font-bold">Verified</span>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 function CustomerReviews() {
   const sectionRef = useRef(null)
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
-  const [reviewImages, setReviewImages] = useState([])
+  const scrollRef = useRef(null)
+  const [isPaused, setIsPaused] = useState(false)
 
-  // Generate card images on mount
+  // Auto-scroll
   useEffect(() => {
-    const images = reviewsData.map(review => ({
-      image: generateReviewCardImage(review),
-      text: `${review.name} - ${review.event}`
-    }))
-    setReviewImages(images)
-  }, [])
+    const container = scrollRef.current
+    if (!container) return
 
-  if (reviewImages.length === 0) return null
+    let animId
+    let scrollPos = 0
+    const speed = 0.5
+
+    const animate = () => {
+      if (!isPaused && container) {
+        scrollPos += speed
+        if (scrollPos >= container.scrollWidth / 2) {
+          scrollPos = 0
+        }
+        container.scrollLeft = scrollPos
+      }
+      animId = requestAnimationFrame(animate)
+    }
+
+    animId = requestAnimationFrame(animate)
+    return () => cancelAnimationFrame(animId)
+  }, [isPaused])
 
   return (
     <section id="reviews" className="py-section-gap bg-surface-container-lowest relative overflow-hidden">
@@ -116,29 +89,38 @@ function CustomerReviews() {
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.8 }}
-        className="text-center mb-4 px-5 md:px-margin-desktop relative z-10"
+        className="text-center mb-12 px-5 md:px-margin-desktop relative z-10"
       >
         <span className="font-space-grotesk text-label-caps text-primary tracking-[0.3em] uppercase">
           HAPPY CUSTOMERS
         </span>
         <h2 className="font-sora text-headline-lg mt-4">What Our Guests Say</h2>
         <p className="text-on-surface-variant font-manrope mt-4 max-w-lg mx-auto">
-          200+ celebrations. 4.9★ rating. Drag to browse reviews.
+          200+ celebrations. 4.9★ rating. Real reviews from real moments.
         </p>
       </motion.div>
 
-      {/* CircularGallery with review card images */}
-      <div className="relative h-[500px] sm:h-[600px] w-full">
-        <CircularGallery
-          items={reviewImages}
-          bend={-3}
-          textColor="#c3f5ff"
-          borderRadius={0.06}
-          font="bold 18px Sora"
-          fontUrl="https://fonts.googleapis.com/css2?family=Sora:wght@700&display=swap"
-          scrollSpeed={3}
-          scrollEase={0.08}
-        />
+      {/* Auto-scrolling reviews */}
+      <div
+        ref={scrollRef}
+        className="flex gap-5 overflow-x-auto px-5 md:px-margin-desktop pb-4 scrollbar-hide relative z-10"
+        style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        onMouseEnter={() => setIsPaused(true)}
+        onMouseLeave={() => setIsPaused(false)}
+        onTouchStart={() => setIsPaused(true)}
+        onTouchEnd={() => setIsPaused(false)}
+      >
+        {/* Duplicate for seamless loop */}
+        {[...reviews, ...reviews].map((review, i) => (
+          <motion.div
+            key={`review-${i}`}
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.5, delay: (i % reviews.length) * 0.05 }}
+          >
+            <ReviewCard review={review} />
+          </motion.div>
+        ))}
       </div>
     </section>
   )
