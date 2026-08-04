@@ -3,10 +3,10 @@ export const SHOWTIME_INFO = {
   name: 'SHOWTIME',
   tagline: 'Private Movie Theatre & Surprise Planners',
   location: 'Pondicherry, India',
-  phone: '+91 93606 XXXXX',
+  phone: '+91 93637 99250',
   instagram: 'https://www.instagram.com/showtime_privatemovietheatre/',
   facebook: 'https://www.facebook.com/profile.php?id=61566438809712',
-  whatsapp: 'https://wa.me/9193606XXXXX',
+  whatsapp: 'https://wa.me/919363799250',
   website: 'https://showtimesurpriseplanners.in',
   maxMembers: 14,
   description:

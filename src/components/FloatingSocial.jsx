@@ -13,7 +13,7 @@ const socials = [
   },
   {
     name: 'WhatsApp',
-    href: 'https://wa.me/919360600000',
+    href: 'https://wa.me/919363799250',
     color: '#25D366',
     icon: (
       <svg className="w-5 h-5 md:w-6 md:h-6" fill="currentColor" viewBox="0 0 24 24">

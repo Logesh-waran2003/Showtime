@@ -13,7 +13,7 @@ const socialLinks = [
   },
   {
     name: 'whatsapp',
-    href: 'https://wa.me/919360600000',
+    href: 'https://wa.me/919363799250',
   },
 ]
 
@@ -64,7 +64,7 @@ function Footer() {
       </div>
 
       <p className="font-manrope text-body-md text-on-tertiary-fixed-variant text-center opacity-60">
-        © 2024 SHOWTIME SURPRISE PLANNERS. PONDICHERRY, INDIA.
+        © 2025 SHOWTIME SURPRISE PLANNERS. PONDICHERRY, INDIA.
       </p>
     </footer>
   )
