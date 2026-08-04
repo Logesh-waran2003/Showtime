@@ -167,7 +167,7 @@ function InstagramDome() {
         </motion.div>
 
         {/* Reels Grid - Instagram embeds visible in cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 relative z-10">
+        <div className="flex flex-wrap justify-center gap-4 relative z-10">
           <AnimatePresence mode="popLayout">
             {filteredReels.map((reel, i) => (
               <motion.div
@@ -177,7 +177,7 @@ function InstagramDome() {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.4, delay: i * 0.03 }}
-                className="group cursor-pointer"
+                className="group cursor-pointer w-[160px] sm:w-[200px] md:w-[220px]"
                 onClick={(e) => handleCardClick(e, reel)}
               >
                 <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-all duration-300 shadow-lg group-hover:shadow-[0_15px_40px_rgba(0,229,255,0.12)] group-hover:-translate-y-1">
