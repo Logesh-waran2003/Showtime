@@ -2,49 +2,51 @@ import { motion, useInView, AnimatePresence } from 'framer-motion'
 import { useRef, useState, useEffect } from 'react'
 
 // Real Instagram reels from @showtime_privatemovietheatre - with actual CDN thumbnails
+// Ordered to show variety first (mixed categories)
 const ALL_REELS = [
-  // Birthday
-  { id: 'r1', category: 'Birthday', title: 'Tag & Share 🩵 522K views', url: 'https://www.instagram.com/reel/DB5fkuyhBA4/', thumb: 'https://scontent-sin2-2.cdninstagram.com/v/t51.718…KF8yT9kHprmZ5nTncynihOsd4ivfnkgXwJwGg&oe=6A7795B2' },
-  { id: 'r2', category: 'Birthday', title: 'Brother surprise 💜 405K', url: 'https://www.instagram.com/reel/DAdZlTJyecP/', thumb: 'https://scontent-sin2-3.cdninstagram.com/v/t51.718…xordFyfPoeds_fMQKS-DGziL_HoDDraWo9y0Q&oe=6A77956D' },
-  { id: 'r3', category: 'Birthday', title: 'Birthday surprise 🎂 270K', url: 'https://www.instagram.com/reel/DPdqk03CJ1n/', thumb: 'https://scontent-sin2-2.cdninstagram.com/v/t51.718…b7AJ0urdNdlAqsFbf1Q0bP2N9V8AXvWxx4R-Q&oe=6A77AB2E' },
-  { id: 'r4', category: 'Birthday', title: 'Watch till End 😂 154K', url: 'https://www.instagram.com/reel/DPgNGTLEfSj/', thumb: 'https://scontent-sin2-3.cdninstagram.com/v/t51.827…eLnA0j7FfZ7uCDxXjfcE07haZnBGgqt-NhAVQ&oe=6A77A236' },
-  { id: 'r5', category: 'Birthday', title: 'Best Surprise ❤️ 71K', url: 'https://www.instagram.com/reel/C94eGfihjGT/', thumb: 'https://scontent-sin6-3.cdninstagram.com/v/t51.718…LtSdWOc16VHyCmEoEZpAEkcuSseVN7erHC76A&oe=6A779BFF' },
-  { id: 'r6', category: 'Birthday', title: 'Daddy surprise 🎉 67K', url: 'https://www.instagram.com/reel/C-kqaIHBh_v/', thumb: 'https://scontent-sin6-3.cdninstagram.com/v/t51.718…jZ-bM6yQCbgVh0gQpkwRv1EHqhaMgLhmlc56A&oe=6A778ED7' },
-  { id: 'r7', category: 'Birthday', title: '2AM therapist 💕 66K', url: 'https://www.instagram.com/reel/DJESQDRONMl/', thumb: 'https://scontent-sin2-1.cdninstagram.com/v/t51.718…K-2QHTLO3VWJsBia3n1pE-h3TYQsrlvbg6FaA&oe=6A77ABCC' },
-  { id: 'r8', category: 'Birthday', title: 'Year One wrap 🎂 51K', url: 'https://www.instagram.com/reel/DJa0T1AsrBY/', thumb: 'https://scontent-sin6-3.cdninstagram.com/v/t51.718…5njvdnE0LdgUhdCk6CZPHz7G8i2NeQLl3IQfw&oe=6A77A20D' },
-  { id: 'r9', category: 'Birthday', title: 'Happy 27 🥳❤️', url: 'https://www.instagram.com/reel/DZehSQwhmha/', thumb: 'https://scontent-sin6-3.cdninstagram.com/v/t51.718…AW5_YTbL1rP6_mLnrsqjI1O6oUBM21UuvEg9g&oe=6A778237' },
-  { id: 'r10', category: 'Birthday', title: 'Birthday special 💕', url: 'https://www.instagram.com/reel/DW1LvHQAYt_/', thumb: 'https://scontent-sin6-3.cdninstagram.com/v/t51.827…wwUkiPRDTip7-l88AyAagE8XQ7c3kCcz4GZKQ&oe=6A77AD34' },
-  // Romantic
-  { id: 'r11', category: 'Romantic', title: 'Romantic Date 😍 43K', url: 'https://www.instagram.com/reel/DA5WWozsiu3/', thumb: 'https://scontent-sin11-1.cdninstagram.com/v/t51.71…lSbMvOIvLSckoqyPPUQSif2NcGZH5uJXdHSPg&oe=6A779D15' },
-  { id: 'r12', category: 'Romantic', title: 'That Smile ❤️ 41K', url: 'https://www.instagram.com/reel/C-LOt0Phzp1/', thumb: 'https://scontent-sin6-3.cdninstagram.com/v/t51.718…xOHSRnepa8lez6MPpubxL75duixNEY9QMEoGw&oe=6A778F0A' },
-  { id: 'r13', category: 'Romantic', title: 'Lights Camera 📸 75K', url: 'https://www.instagram.com/reel/DE4nR78MPjo/', thumb: 'https://scontent-sin2-1.cdninstagram.com/v/t51.718…ylUeUUd8twH3WRk-nEC8XD0vSWkOupzGKeyyw&oe=6A77B273' },
-  { id: 'r14', category: 'Romantic', title: 'Perfect Gift 🎁 58K', url: 'https://www.instagram.com/reel/DGbLRhHvnUw/', thumb: 'https://scontent-sin6-3.cdninstagram.com/v/t51.718…s3vIPfSuCGOCI7-7P4ZdBcutwdvlGo4xQWgXg&oe=6A77910C' },
-  { id: 'r15', category: 'Romantic', title: 'Perfect Gift 211K', url: 'https://www.instagram.com/reel/DDOwKivOzUt/', thumb: 'https://scontent-sin11-2.cdninstagram.com/v/t51.71…_3vW2_99sduFQYRquhsAUuRO_H2iKq74D4yXQ&oe=6A77A89F' },
-  { id: 'r16', category: 'Romantic', title: 'Boyfriend standard 🥹', url: 'https://www.instagram.com/reel/DaXx9zWjPeb/', thumb: 'https://scontent-sin11-1.cdninstagram.com/v/t51.82…pmmDwYsoGbF1N3wgzwslScdLat4Lz54syikSg&oe=6A77B108' },
-  { id: 'r17', category: 'Romantic', title: 'Valentine Offer 💖', url: 'https://www.instagram.com/reel/DUZyNbPE9kp/', thumb: 'https://scontent-sin11-2.cdninstagram.com/v/t51.71…jDiruxSPOGPfOOlCotSP8GmfansAbf3XBAeoQ&oe=6A77B692' },
-  // Anniversary
-  { id: 'r18', category: 'Anniversary', title: 'Anniversary 🌟💃', url: 'https://www.instagram.com/reel/DY84AERS52e/', thumb: 'https://scontent-sin2-3.cdninstagram.com/v/t51.827…Yf7-GAGHzZzEvqJAglo_mNVQM27nW_qIOZNsg&oe=6A77B037' },
-  { id: 'r19', category: 'Anniversary', title: 'Men deserve surprises ❤️', url: 'https://www.instagram.com/reel/DVJDzG3D-U0/', thumb: 'https://scontent-sin6-3.cdninstagram.com/v/t51.718…vHYd4NCCunJ_uDnBNwkuTSQLpF1sJLaC575hA&oe=6A7782BD' },
-  { id: 'r20', category: 'Anniversary', title: '25th Anniversary 🎉', url: 'https://www.instagram.com/reel/DR-NCyLEhfd/', thumb: 'https://scontent-sin11-1.cdninstagram.com/v/t51.71…AaZZdWGFTjwTTAlcR9zjRvWQGgXt290s4i26g&oe=6A77AEFD' },
-  { id: 'r21', category: 'Anniversary', title: 'Same love new memories', url: 'https://www.instagram.com/reel/DUlGz0tEzJU/', thumb: 'https://scontent-sin2-3.cdninstagram.com/v/t51.827…xs3Jr5M0vZyEamqVSOdT3tg1IsE4zRnJkByuA&oe=6A778286' },
-  { id: 'r22', category: 'Anniversary', title: 'Anniversary celebration', url: 'https://www.instagram.com/reel/DDmK3z3PLr4/', thumb: 'https://scontent-sin6-3.cdninstagram.com/v/t51.757…V70d4egw0Q3WJqpBZ1vYhTBmlxS-sFusKCdvw&oe=6A77B312' },
-  // Friends & Bride
-  { id: 'r23', category: 'Friends', title: 'Bride mode ON 💍', url: 'https://www.instagram.com/reel/DaS5WpXDHvv/', thumb: 'https://scontent-sin2-2.cdninstagram.com/v/t51.827…lPDinu7Urx-lOBHyCU2rmR-wqSj41miaUWW5g&oe=6A77AEE6' },
-  { id: 'r24', category: 'Friends', title: 'IPL Watch Party 🏏 76K', url: 'https://www.instagram.com/reel/C4n9q9NhmM0/', thumb: 'https://scontent-sin6-2.cdninstagram.com/v/t51.718…L_80bjv4yDWIkJF31tbbAxTYXZNrCZuI55QvQ&oe=6A77931F' },
-  { id: 'r25', category: 'Friends', title: 'Bride-to-be planning 👰', url: 'https://www.instagram.com/reel/DSxGFGoEwJQ/', thumb: 'https://scontent-sin11-2.cdninstagram.com/v/t51.71…6qD57aS620COd5eXoBoAyj72XRDMelo2LGDRA&oe=6A77A9B6' },
-  { id: 'r26', category: 'Friends', title: 'Girl gang life!', url: 'https://www.instagram.com/reel/DRroekriMf6/', thumb: 'https://scontent-sin6-1.cdninstagram.com/v/t51.827…Lzp4f7uNO1hhI4l7izODtDyMRU9Eni-JbQQEQ&oe=6A778C4D' },
-  { id: 'r27', category: 'Friends', title: 'New bride in town ✨', url: 'https://www.instagram.com/reel/DXgkMMRjUOK/', thumb: 'https://scontent-sin11-2.cdninstagram.com/v/t51.82…jmtUVXeLcsG6se6ewKfXR3WVuAB-xOvQn-O4Q&oe=6A7783F4' },
-  // Movie & Gaming
-  { id: 'r28', category: 'Movie Night', title: 'PS5 setup 🎮 336K', url: 'https://www.instagram.com/reel/DWlznnPE-Gy/', thumb: 'https://scontent-sin2-1.cdninstagram.com/v/t51.827…jeVIlA3ri_RkG9H4u9_SdVFx0v7l9sXjtpBbw&oe=6A77B40A' },
-  { id: 'r29', category: 'Movie Night', title: 'Private theatre 🎬 184K', url: 'https://www.instagram.com/reel/DPWOgdZExoV/', thumb: 'https://scontent-sin11-2.cdninstagram.com/v/t51.71…n4fpDtH6dk-bMkRPLzduuUeKIXcxIhSmXv33Q&oe=6A779EDF' },
-  { id: 'r30', category: 'Movie Night', title: 'Marthandam theatre 77K', url: 'https://www.instagram.com/reel/DP3-pCTieNJ/', thumb: 'https://scontent-sin2-2.cdninstagram.com/v/t51.718…q6osghh7rEOd0mcyzrOsYZmIgYBH19gOSaQ3g&oe=6A7783D9' },
-  { id: 'r31', category: 'Movie Night', title: 'Wait for end ❤️ 61K', url: 'https://www.instagram.com/reel/DSe86sbimsm/', thumb: 'https://scontent-sin2-3.cdninstagram.com/v/t51.718…YvOEKiRFx1Ld69S0NZ3H45YNH4UcHuHg1wCjQ&oe=6A778A89' },
-  { id: 'r32', category: 'Movie Night', title: 'Smoke Entry 🔥', url: 'https://www.instagram.com/reel/DMp76ZjzAUe/', thumb: 'https://scontent-sin2-1.cdninstagram.com/v/t51.827…PpUShvmej6JIpfLmPR83N5bl6wc7gYGyUXMEA&oe=6A77A2CC' },
-  // Family
-  { id: 'r33', category: 'Family', title: 'They deserve a moment', url: 'https://www.instagram.com/reel/DbC1oJ3jaKV/', thumb: 'https://scontent-sin6-3.cdninstagram.com/v/t51.827…bKB6878TYnJwnRVq9wp5j5hbhpPO1VP1jWvUw&oe=6A77A73F' },
-  { id: 'r34', category: 'Family', title: 'Marthandam theatre 62K', url: 'https://www.instagram.com/reel/DRjaW4Hkkoj/', thumb: 'https://scontent-sin11-2.cdninstagram.com/v/t51.82…gTyTVZIjVP47_90vzOdcbDk_rjDiqSojT04sA&oe=6A7788A3' },
-  { id: 'r35', category: 'Family', title: 'Family celebration 🎉', url: 'https://www.instagram.com/reel/DGsuXxfBw6Y/', thumb: 'https://scontent-sin11-1.cdninstagram.com/v/t51.71…yGbvCkQXMEo6NYO3NbTMzw2vOhAV6p34cwpZA&oe=6A77B6CF' },
-  { id: 'r36', category: 'Family', title: 'Naming ceremony ❤️', url: 'https://www.instagram.com/reel/DGau-rFhRI4/', thumb: 'https://scontent-sin2-3.cdninstagram.com/v/t51.718…OrEYgoaBV7ppHyBlrbGYc0u814PqRz79UMqyg&oe=6A77912E' },
+  // Mix of top performers from each category first
+  { id: 'r1', category: 'Birthday', title: 'Tag & Share 🩵 522K', url: 'https://www.instagram.com/reel/DB5fkuyhBA4/', thumb: '' },
+  { id: 'r11', category: 'Romantic', title: 'Romantic Date 😍 43K', url: 'https://www.instagram.com/reel/DA5WWozsiu3/', thumb: '' },
+  { id: 'r28', category: 'Movie Night', title: 'PS5 setup 🎮 336K', url: 'https://www.instagram.com/reel/DWlznnPE-Gy/', thumb: '' },
+  { id: 'r18', category: 'Anniversary', title: 'Anniversary 🌟💃', url: 'https://www.instagram.com/reel/DY84AERS52e/', thumb: '' },
+  { id: 'r24', category: 'Friends', title: 'IPL Watch Party 🏏 76K', url: 'https://www.instagram.com/reel/C4n9q9NhmM0/', thumb: '' },
+  { id: 'r33', category: 'Family', title: 'They deserve a moment ❤️', url: 'https://www.instagram.com/reel/DbC1oJ3jaKV/', thumb: '' },
+  { id: 'r2', category: 'Birthday', title: 'Brother surprise 💜 405K', url: 'https://www.instagram.com/reel/DAdZlTJyecP/', thumb: '' },
+  { id: 'r15', category: 'Romantic', title: 'Perfect Gift 🎁 211K', url: 'https://www.instagram.com/reel/DDOwKivOzUt/', thumb: '' },
+  { id: 'r23', category: 'Friends', title: 'Bride mode ON 💍', url: 'https://www.instagram.com/reel/DaS5WpXDHvv/', thumb: '' },
+  { id: 'r29', category: 'Movie Night', title: 'Private theatre 🎬 184K', url: 'https://www.instagram.com/reel/DPWOgdZExoV/', thumb: '' },
+  { id: 'r19', category: 'Anniversary', title: 'Men deserve surprises ❤️', url: 'https://www.instagram.com/reel/DVJDzG3D-U0/', thumb: '' },
+  { id: 'r34', category: 'Family', title: 'Marthandam theatre 62K', url: 'https://www.instagram.com/reel/DRjaW4Hkkoj/', thumb: '' },
+  // More Birthday
+  { id: 'r3', category: 'Birthday', title: 'Birthday surprise 🎂 270K', url: 'https://www.instagram.com/reel/DPdqk03CJ1n/', thumb: '' },
+  { id: 'r4', category: 'Birthday', title: 'Watch till End 😂 154K', url: 'https://www.instagram.com/reel/DPgNGTLEfSj/', thumb: '' },
+  { id: 'r5', category: 'Birthday', title: 'Best Surprise ❤️ 71K', url: 'https://www.instagram.com/reel/C94eGfihjGT/', thumb: '' },
+  { id: 'r6', category: 'Birthday', title: 'Daddy surprise 🎉 67K', url: 'https://www.instagram.com/reel/C-kqaIHBh_v/', thumb: '' },
+  { id: 'r7', category: 'Birthday', title: '2AM therapist 💕 66K', url: 'https://www.instagram.com/reel/DJESQDRONMl/', thumb: '' },
+  { id: 'r8', category: 'Birthday', title: 'Year One wrap 🎂 51K', url: 'https://www.instagram.com/reel/DJa0T1AsrBY/', thumb: '' },
+  { id: 'r9', category: 'Birthday', title: 'Happy 27 🥳❤️', url: 'https://www.instagram.com/reel/DZehSQwhmha/', thumb: '' },
+  { id: 'r10', category: 'Birthday', title: 'Birthday special 💕', url: 'https://www.instagram.com/reel/DW1LvHQAYt_/', thumb: '' },
+  // More Romantic
+  { id: 'r12', category: 'Romantic', title: 'That Smile ❤️ 41K', url: 'https://www.instagram.com/reel/C-LOt0Phzp1/', thumb: '' },
+  { id: 'r13', category: 'Romantic', title: 'Lights Camera 📸 75K', url: 'https://www.instagram.com/reel/DE4nR78MPjo/', thumb: '' },
+  { id: 'r14', category: 'Romantic', title: 'Perfect Gift 🎁 58K', url: 'https://www.instagram.com/reel/DGbLRhHvnUw/', thumb: '' },
+  { id: 'r16', category: 'Romantic', title: 'Boyfriend standard 🥹', url: 'https://www.instagram.com/reel/DaXx9zWjPeb/', thumb: '' },
+  { id: 'r17', category: 'Romantic', title: 'Valentine Offer 💖', url: 'https://www.instagram.com/reel/DUZyNbPE9kp/', thumb: '' },
+  // More Anniversary
+  { id: 'r20', category: 'Anniversary', title: '25th Anniversary 🎉', url: 'https://www.instagram.com/reel/DR-NCyLEhfd/', thumb: '' },
+  { id: 'r21', category: 'Anniversary', title: 'Same love new memories', url: 'https://www.instagram.com/reel/DUlGz0tEzJU/', thumb: '' },
+  { id: 'r22', category: 'Anniversary', title: 'Anniversary celebration', url: 'https://www.instagram.com/reel/DDmK3z3PLr4/', thumb: '' },
+  // More Friends
+  { id: 'r25', category: 'Friends', title: 'Bride-to-be planning 👰', url: 'https://www.instagram.com/reel/DSxGFGoEwJQ/', thumb: '' },
+  { id: 'r26', category: 'Friends', title: 'Girl gang life!', url: 'https://www.instagram.com/reel/DRroekriMf6/', thumb: '' },
+  { id: 'r27', category: 'Friends', title: 'New bride in town ✨', url: 'https://www.instagram.com/reel/DXgkMMRjUOK/', thumb: '' },
+  // More Movie Night
+  { id: 'r30', category: 'Movie Night', title: 'Marthandam theatre 77K', url: 'https://www.instagram.com/reel/DP3-pCTieNJ/', thumb: '' },
+  { id: 'r31', category: 'Movie Night', title: 'Wait for end ❤️ 61K', url: 'https://www.instagram.com/reel/DSe86sbimsm/', thumb: '' },
+  { id: 'r32', category: 'Movie Night', title: 'Smoke Entry 🔥', url: 'https://www.instagram.com/reel/DMp76ZjzAUe/', thumb: '' },
+  // More Family
+  { id: 'r35', category: 'Family', title: 'Family celebration 🎉', url: 'https://www.instagram.com/reel/DGsuXxfBw6Y/', thumb: '' },
+  { id: 'r36', category: 'Family', title: 'Naming ceremony ❤️', url: 'https://www.instagram.com/reel/DGau-rFhRI4/', thumb: '' },
 ]
 
 const CATEGORIES = ['All', 'Birthday', 'Romantic', 'Anniversary', 'Friends', 'Movie Night', 'Family']
@@ -117,7 +119,7 @@ function InstagramDome() {
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
   const [activeFilter, setActiveFilter] = useState('All')
   const [selectedReel, setSelectedReel] = useState(null)
-  const [showCount, setShowCount] = useState(8)
+  const [showCount, setShowCount] = useState(12)
 
   const filteredReels = activeFilter === 'All'
     ? ALL_REELS
