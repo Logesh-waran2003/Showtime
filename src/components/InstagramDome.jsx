@@ -189,10 +189,16 @@ function InstagramDome() {
                 onClick={(e) => handleCardClick(e, reel)}
               >
                 <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-all duration-300 shadow-lg group-hover:shadow-[0_15px_40px_rgba(0,229,255,0.12)] group-hover:-translate-y-1">
+                  {/* Skeleton loading */}
+                  <div className="absolute inset-0 bg-surface-container-high animate-pulse">
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <div className="w-8 h-8 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+                    </div>
+                  </div>
                   {/* Instagram embed */}
                   <iframe
                     src={`${reel.url}embed/`}
-                    className="absolute inset-0 w-full h-full border-0 pointer-events-none"
+                    className="absolute inset-0 w-full h-full border-0 pointer-events-none z-[1]"
                     loading="lazy"
                     title={reel.title}
                     tabIndex="-1"

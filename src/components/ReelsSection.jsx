@@ -169,10 +169,16 @@ function ReelsSection() {
             >
               {/* Card with visible Instagram embed */}
               <div className="relative aspect-[9/16] rounded-2xl overflow-hidden border border-white/10 group-hover:border-primary/50 transition-all duration-300 shadow-lg group-hover:shadow-[0_20px_50px_rgba(0,229,255,0.15)]">
+                {/* Skeleton loading */}
+                <div className="absolute inset-0 bg-surface-container-high animate-pulse">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="w-10 h-10 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+                  </div>
+                </div>
                 {/* Instagram embed */}
                 <iframe
                   src={`${reel.instagramUrl}embed/`}
-                  className="absolute inset-0 w-full h-full border-0 pointer-events-none"
+                  className="absolute inset-0 w-full h-full border-0 pointer-events-none z-[1]"
                   loading="lazy"
                   title={reel.title}
                   tabIndex="-1"
