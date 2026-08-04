@@ -156,8 +156,8 @@ function ReelsSection() {
           onTouchStart={() => setIsPaused(true)}
           onTouchEnd={() => setIsPaused(false)}
         >
-          {/* Duplicate reels for seamless loop feel */}
-          {[...REELS_DATA, ...REELS_DATA].map((reel, i) => (
+          {/* Only first 8 reels duplicated for loop */}
+          {[...REELS_DATA.slice(0, 8), ...REELS_DATA.slice(0, 8)].map((reel, i) => (
             <motion.div
               key={`${reel.id}-${i}`}
               initial={{ opacity: 0, y: 30 }}

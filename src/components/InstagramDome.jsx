@@ -117,10 +117,13 @@ function InstagramDome() {
   const isInView = useInView(sectionRef, { once: true, margin: '-100px' })
   const [activeFilter, setActiveFilter] = useState('All')
   const [selectedReel, setSelectedReel] = useState(null)
+  const [showCount, setShowCount] = useState(8)
 
   const filteredReels = activeFilter === 'All'
     ? ALL_REELS
     : ALL_REELS.filter((r) => r.category === activeFilter)
+
+  const visibleReels = filteredReels.slice(0, showCount)
 
   const handleCardClick = (e, reel) => {
     e.preventDefault()
@@ -160,7 +163,7 @@ function InstagramDome() {
           {CATEGORIES.map((cat) => (
             <motion.button
               key={cat}
-              onClick={() => setActiveFilter(cat)}
+              onClick={() => { setActiveFilter(cat); setShowCount(8); }}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className={`px-5 py-2.5 rounded-full font-space-grotesk text-label-caps text-xs transition-all duration-300 ${
@@ -177,7 +180,7 @@ function InstagramDome() {
         {/* Reels Grid - Instagram embeds visible in cards */}
         <div className="flex flex-wrap justify-center gap-4 relative z-10">
           <AnimatePresence mode="popLayout">
-            {filteredReels.map((reel, i) => (
+            {visibleReels.map((reel, i) => (
               <motion.div
                 key={reel.id}
                 layout
@@ -227,6 +230,18 @@ function InstagramDome() {
             ))}
           </AnimatePresence>
         </div>
+
+        {/* Load More button */}
+        {showCount < filteredReels.length && (
+          <div className="text-center mt-8 relative z-10">
+            <button
+              onClick={() => setShowCount(prev => prev + 8)}
+              className="px-8 py-3 bg-white/5 border border-primary/30 rounded-full text-primary font-space-grotesk text-label-caps hover:bg-white/10 hover:border-primary/60 transition-all"
+            >
+              Load More ({filteredReels.length - showCount} remaining)
+            </button>
+          </div>
+        )}
 
         {/* Instagram CTA */}
         <motion.div
